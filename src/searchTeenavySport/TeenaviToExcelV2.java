@@ -250,6 +250,7 @@ public class TeenaviToExcelV2 {
 					    Set<String> set = mapMenuId.keySet();
 					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
+					    	System.out.println("Menu: " + key);
 							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
 							Document docPageForMenu = Jsoup.connect(menuLink).userAgent(
 									"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
@@ -266,6 +267,7 @@ public class TeenaviToExcelV2 {
 					        }
 					        
 					     	for (int i = 1; i <= pageNumber; i++) {
+					     		System.out.println("Page: " + i);
 					     		String urlValue = "";
 					     		if(key.equals("FATHERS") || key.equals("MOTHERS")) {
 					     			urlValue =  menuLink.substring(0,20) + "page/"+i+"/" + menuLink.substring(20);
@@ -293,11 +295,11 @@ public class TeenaviToExcelV2 {
 			}
 
 			private Map<String, String> getMapMenuId() {
-				mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
-				mapMenuId.put("FATHERS", "li#menu-item-78");
-				mapMenuId.put("MOTHERS", "li#menu-item-69428");
-				mapMenuId.put("HALLOWEEN", "li#menu-item-79");
-				mapMenuId.put("MOVIE", "li#menu-item-54840");
+//				mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
+//				mapMenuId.put("FATHERS", "li#menu-item-78");
+//				mapMenuId.put("MOTHERS", "li#menu-item-69428");
+//				mapMenuId.put("HALLOWEEN", "li#menu-item-79");
+//				mapMenuId.put("MOVIE", "li#menu-item-54840");
 				mapMenuId.put("CHRISTMAS", "li#menu-item-80");
 				mapMenuId.put("DOG", "li#menu-item-76");
 				mapMenuId.put("GAMES", "li#menu-item-75");
@@ -343,9 +345,10 @@ public class TeenaviToExcelV2 {
 					if (StringUtil.isBlank(link)) {
 						System.out.println("NO link");
 					} else {
-						if (!StringUtil.isBlank(sub.getText())) {
-							submain = Integer.parseInt(sub.getText());
-						}
+						//----------------------------------------------------
+//						if (!StringUtil.isBlank(sub.getText())) {
+//							submain = Integer.parseInt(sub.getText());
+//						}
 						if (!StringUtil.isBlank(intpage.getText())) {
 							page = Integer.parseInt(intpage.getText());
 						}
@@ -420,7 +423,7 @@ public class TeenaviToExcelV2 {
 							}
 
 						}
-						
+						//---------------------------------------------
 						//https://teenavi.com/product_cat-sitemap.xml
 						link="https://teenavi.com/product_cat-sitemap.xml"; 
 						System.out.println("Find https://teenavi.com/product_cat-sitemap.xml");
