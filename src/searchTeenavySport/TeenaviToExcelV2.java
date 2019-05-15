@@ -247,9 +247,6 @@ public class TeenaviToExcelV2 {
 
 						System.out.println("NO link");
 					} else {
-//						if (!StringUtil.isBlank(sub.getText())) {
-//							submain = Integer.parseInt(sub.getText());
-//						}
 						if (!StringUtil.isBlank(intpage.getText())) {
 							page = Integer.parseInt(intpage.getText());
 						}
@@ -263,7 +260,7 @@ public class TeenaviToExcelV2 {
 
 						//lay san pham tung menu
 					    Set<String> set = mapMenuId.keySet();
-					    StringBuilder valueCSV = new StringBuilder();
+//					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
 					    	System.out.println("Menu: " + key);
 							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
@@ -292,11 +289,16 @@ public class TeenaviToExcelV2 {
 					    		Document documentValue = Jsoup.connect(urlValue).userAgent(
 										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
 								.referrer("http://www.google.com").get();
+					    		Document buyProduct;
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
-					    			listObjLink.add(productLink) ;
-					    			valueCSV.append(productLink);
-					    			valueCSV.append("\r");
+						    		buyProduct = Jsoup.connect(productLink).userAgent(
+											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+									.referrer("http://www.google.com").get();
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+					    			listObjLink.add(buyProductLink) ;
+//					    			valueCSV.append(buyProductLink);
+//					    			valueCSV.append("\r");
 					    		}
 					    	}
 							
@@ -359,7 +361,7 @@ public class TeenaviToExcelV2 {
 	
 						//lay san pham tung menu
 					    Set<String> set = mapMenuId.keySet();
-					    StringBuilder valueCSV = new StringBuilder();
+//					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
 					    	System.out.println("Menu: " + key);
 							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
@@ -388,12 +390,17 @@ public class TeenaviToExcelV2 {
 					    		Document documentValue = Jsoup.connect(urlValue).userAgent(
 										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
 								.referrer("http://www.google.com").get();
+					    		Document buyProduct;
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
-									if(!listObjLink.contains(productLink) && !dataListLnk.contains(productLink)){
-						    			listObjLink.add(productLink) ;
-						    			valueCSV.append(productLink);
-						    			valueCSV.append("\r");
+						    		buyProduct = Jsoup.connect(productLink).userAgent(
+											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+									.referrer("http://www.google.com").get();
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+						    			listObjLink.add(buyProductLink) ;
+//						    			valueCSV.append(buyProductLink);
+//						    			valueCSV.append("\r");
 									}
 					    		}
 					    	}
@@ -451,15 +458,19 @@ public class TeenaviToExcelV2 {
 							
 								//Commond.saveFileTXT(linkHref + "page/"
 										//+ String.valueOf(ii)+"/" + "\n", "txt", NameFileOut + "Submain");
+								Document buyProduct;
 								int x = 0;
 								for (Element element2 : itemcategory) {
 									linkdetail = element2.attr("href");
 									x++;
 									if (linkdetail.contains("%"))
 										continue;
-									if(!listObjLink.contains(linkdetail)&&!dataListLnk.contains(linkdetail)){
-//										System.out.println("Chua co        " + linkdetail);
-										listObjLink.add(linkdetail) ;
+						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
+											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+									.referrer("http://www.google.com").get();
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+						    			listObjLink.add(buyProductLink) ;
 									}
 								}
 							}
@@ -481,16 +492,20 @@ public class TeenaviToExcelV2 {
 								String strm =content.toString();
 								docDetail = Jsoup.parse(strm, "", Parser.xmlParser());
 								trm=new TemplateURLSitemap();
+								Document buyProduct;
 								for (int x=0;x< docDetail.select("loc").size();x++) {
 									//System.out.println(doc.select("loc").get(x).text() );
-									
 									linkdetail =docDetail.select("loc").get(x).text() ;
 									x++;
 									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
 										continue;
-									if(!listObjLink.contains(linkdetail)&&!dataListLnk.contains(linkdetail)){
-//										System.out.println("Chua co        " + linkdetail);
-										listObjLink.add(linkdetail) ;
+									
+						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
+											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+									.referrer("http://www.google.com").get();
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+						    			listObjLink.add(buyProductLink) ;
 									}
 								}
 							}
