@@ -57,7 +57,7 @@ public class TeenaviToExcel {
 	private static final Log log = LogFactory.getLog(TeenaviToExcel.class);
 	int[] styles = { SWT.SINGLE, SWT.MULTI };
 	private Display display = new Display();
-	private List<String> dataListView = new ArrayList<String>();
+	private List<String> dataListView = new ArrayList<String>(); 
 	private List<String> dataListLnk = new ArrayList<String>();
 	HashMap<String, String> listColor;
 	private Text textNameFileOut;
@@ -178,6 +178,7 @@ public class TeenaviToExcel {
 							if (!linkFromFile.isEmpty()) {
 
 								dataListLnk.add(linkFromFile);
+								//cho vào list tam. de so sanh
 							}
 							// read the next line
 							stringRead = br.readLine();
@@ -488,8 +489,10 @@ public class TeenaviToExcel {
 										System.out.println("Chua co        " + linkdetail);
 										listObjLink.add(linkdetail) ;
 									}else{
-										//System.out.println("Link nay co roi 		         " + linkdetail);
+										System.out.println("Link nay co roi 		         " + linkdetail);
 									}
+									
+									
 								}
 							}
 							
@@ -522,7 +525,7 @@ public class TeenaviToExcel {
 										System.out.println("Chua co        " + linkdetail);
 										listObjLink.add(linkdetail) ;
 									}else{
-										//System.out.println("Link nay co roi 		         " + linkdetail);
+										System.out.println("Link nay co roi 		         " + linkdetail);
 									}
 								}
 							}

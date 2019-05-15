@@ -74,7 +74,7 @@ public class TeenaviToExcelV2 {
 	ArrayList<String> listObjLink = new ArrayList<String>();
 	private Button btnCheckNew;
 	private Button btnCheckNewCach;
-	private Map<String, String> mapMenuId = new HashMap<String, String>();
+	private static Map<String, String> mapMenuId = new HashMap<String, String>();
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
 	 * 
@@ -83,10 +83,26 @@ public class TeenaviToExcelV2 {
 	public static void main(String[] args) {
 		try {
 			TeenaviToExcelV2 window = new TeenaviToExcelV2();
+			window.mapMenuId = getMapMenuId();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Map<String, String> getMapMenuId() {
+		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
+//		mapMenuId.put("FATHERS", "li#menu-item-78");
+//		mapMenuId.put("MOTHERS", "li#menu-item-69428");
+//		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
+//		mapMenuId.put("MOVIE", "li#menu-item-54840");
+//		mapMenuId.put("CHRISTMAS", "li#menu-item-80");
+//		mapMenuId.put("DOG", "li#menu-item-76");
+//		mapMenuId.put("GAMES", "li#menu-item-75");
+//		mapMenuId.put("NURSE", "li#menu-item-54842");
+//		mapMenuId.put("UNICORN", "li#menu-item-54843");
+//		mapMenuId.put("TRUMP", "li#menu-item-54844");
+		return mapMenuId;
 	}
 
 	/**
@@ -246,7 +262,6 @@ public class TeenaviToExcelV2 {
 						document = Jsoup.parse(doc.toString());
 
 						//lay san pham tung menu
-					    mapMenuId = this.getMapMenuId();
 					    Set<String> set = mapMenuId.keySet();
 					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
@@ -294,20 +309,6 @@ public class TeenaviToExcelV2 {
 				}
 			}
 
-			private Map<String, String> getMapMenuId() {
-//				mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
-//				mapMenuId.put("FATHERS", "li#menu-item-78");
-//				mapMenuId.put("MOTHERS", "li#menu-item-69428");
-//				mapMenuId.put("HALLOWEEN", "li#menu-item-79");
-//				mapMenuId.put("MOVIE", "li#menu-item-54840");
-				mapMenuId.put("CHRISTMAS", "li#menu-item-80");
-				mapMenuId.put("DOG", "li#menu-item-76");
-				mapMenuId.put("GAMES", "li#menu-item-75");
-				mapMenuId.put("NURSE", "li#menu-item-54842");
-				mapMenuId.put("UNICORN", "li#menu-item-54843");
-				mapMenuId.put("TRUMP", "li#menu-item-54844");
-				return mapMenuId;
-			}
 		});
 		btnCheckNew.setText("Check New ");
 		btnCheckNew.setBounds(358, 337, 204, 37);
@@ -329,9 +330,7 @@ public class TeenaviToExcelV2 {
 				String Category="";
 				StringBuffer contentChild;
 				try {
-
 					UrlValidator urlValidator = new UrlValidator();
-
 					System.setProperty("http.agent",
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 
@@ -344,85 +343,63 @@ public class TeenaviToExcelV2 {
 					Document docDetail ;
 					if (StringUtil.isBlank(link)) {
 						System.out.println("NO link");
-					} else {
-						//----------------------------------------------------
-//						if (!StringUtil.isBlank(sub.getText())) {
-//							submain = Integer.parseInt(sub.getText());
-//						}
+					} else 
+					{
 						if (!StringUtil.isBlank(intpage.getText())) {
 							page = Integer.parseInt(intpage.getText());
 						}
 						if (!StringUtil.isBlank(textNameFileOut.getText())) {
 							NameFileOut = textNameFileOut.getText();
 						}
-						
 						doc = Jsoup.connect(link)
 								.userAgent(
-										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000).timeout(100000)
+										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
 								.referrer("http://www.google.com").get();
 						document = Jsoup.parse(doc.toString());
-
-						Elements subChild = document.select("ul[class=nav header-nav header-bottom-nav nav-left  nav-size-medium nav-uppercase]").select("a") ;
-						//System.out.println(subChild.toString());
-						for (int u = submain; u < subChild.size(); u++) { 
-							int pageEnd = 1;
-							Element element = subChild.get(u);
-							linkHref = element.select("a").first().attr("href");
-							if(linkHref.equals("#")) continue;
-							//Commond.saveFileTXT(linkHref + "\n", "txt", NameFileOut + "Submain");
-							Document documentPage;
-							Document docPage = Jsoup.connect(linkHref)
-									.userAgent(
-											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(99999999)
-									.referrer("http://www.google.com").get();
-							documentPage = Jsoup.parse(docPage.toString());
-							if (documentPage.select("nav[class=woocommerce-pagination]").size() > 0) {
-								int pageCount=documentPage.select("nav[class=woocommerce-pagination]").select("a[class=page-number]").size();
-								if (pageCount > 0) {
-									
-									String strEnd = documentPage.select("nav[class=woocommerce-pagination]").select("a[class=page-number]").get(pageCount-1).text();
-									if (!StringUtil.isBlank(strEnd)) { 
-											pageEnd = Integer.parseInt(strEnd); 
-									}
-								} 
-
-							}
-							System.out.println( linkHref + "[pagination=" + String.valueOf(pageEnd) + "]");
-							for (int i = page; i < pageEnd; i++) {
-								System.out.println("		 " + linkHref + "page/"
-										+ String.valueOf(i)+"/");
-								Document document2;
-								Document doc2 = Jsoup
-										.connect(linkHref + "page/"
-												+ String.valueOf(i)+"/").timeout(15000)
-										.userAgent(
-												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-										.referrer("http://www.google.com").get();
-								document2 = Jsoup.parse(doc2.toString());
-								 Elements itemcategory = document2.select("p[class=name product-title]").select("a");
-								
-								if (itemcategory.size() <= 0)
-									break;
+	
+						//lay san pham tung menu
+					    Set<String> set = mapMenuId.keySet();
+					    StringBuilder valueCSV = new StringBuilder();
+					    for (String key : set) {
+					    	System.out.println("Menu: " + key);
+							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
+							Document docPageForMenu = Jsoup.connect(menuLink).userAgent(
+									"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+							.referrer("http://www.google.com").get();
 							
-								Commond.saveFileTXT22(linkHref + "page/"
-										+ String.valueOf(i)+"/" + "\n", "txt", NameFileOut + "Submain");
-								int x = 0;
-								for (Element element2 : itemcategory) {
-									linkdetail = element2.attr("href");
-									x++;
-									if (linkdetail.contains("%"))
-										continue;
-									if(!listObjLink.contains(linkdetail)&&!dataListLnk.contains(linkdetail)){
-										System.out.println("Chua co        " + linkdetail);
-										Commond.saveFileTXT22(linkdetail + "\n", "txt", NameFileOut + "LinkTmp");
-										listObjLink.add(linkdetail) ;
-									}else{
-										//System.out.println("Link nay co roi 		         " + linkdetail);
+					        int recordNumber = 0;
+					        int pageNumber = 0;
+							String number = docPageForMenu.select("p.woocommerce-result-count").first().text();
+							recordNumber = Integer.parseInt(number.substring(number.indexOf("of") + 3, number.indexOf("results")).trim());
+					        pageNumber = (int)recordNumber/12;
+					        int mod = recordNumber % 12;
+					        if(page > 0 && page < pageNumber) {
+					        	pageNumber = page;
+					        }
+					        
+					     	for (int i = 1; i <= pageNumber; i++) {
+					     		System.out.println("Page: " + i);
+					     		String urlValue = "";
+					     		if(key.equals("FATHERS") || key.equals("MOTHERS")) {
+					     			urlValue =  menuLink.substring(0,20) + "page/"+i+"/" + menuLink.substring(20);
+					     		}else {
+					     			urlValue = menuLink + "page/"+i+"/";
+					     		}
+					    		Document documentValue = Jsoup.connect(urlValue).userAgent(
+										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+								.referrer("http://www.google.com").get();
+					    		for (int j = 0; j < 12; j++) {
+					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
+									if(!listObjLink.contains(productLink) && !dataListLnk.contains(productLink)){
+						    			listObjLink.add(productLink) ;
+						    			valueCSV.append(productLink);
+						    			valueCSV.append("\r");
 									}
-								}
-							}
-
+					    		}
+					    	}
+							
 						}
+						
 						//---------------------------------------------
 						//https://teenavi.com/product_cat-sitemap.xml
 						link="https://teenavi.com/product_cat-sitemap.xml"; 
@@ -481,16 +458,13 @@ public class TeenaviToExcelV2 {
 									if (linkdetail.contains("%"))
 										continue;
 									if(!listObjLink.contains(linkdetail)&&!dataListLnk.contains(linkdetail)){
-										System.out.println("Chua co        " + linkdetail);
+//										System.out.println("Chua co        " + linkdetail);
 										listObjLink.add(linkdetail) ;
-									}else{
-										//System.out.println("Link nay co roi 		         " + linkdetail);
 									}
 								}
 							}
 							
 						}
-						
 						//https://teenavi.com/sitemap_index.xml
 						String linksitemap="";
 						link="https://teenavi.com/sitemap_index.xml";
@@ -515,15 +489,12 @@ public class TeenaviToExcelV2 {
 									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
 										continue;
 									if(!listObjLink.contains(linkdetail)&&!dataListLnk.contains(linkdetail)){
-										System.out.println("Chua co        " + linkdetail);
+//										System.out.println("Chua co        " + linkdetail);
 										listObjLink.add(linkdetail) ;
-									}else{
-										//System.out.println("Link nay co roi 		         " + linkdetail);
 									}
 								}
 							}
 						}
-						
 					}
 					Commond.saveCSV(listObjLink, "LinksTeenavi");
 					//Commond.saveFile(listObjLink, "txt", "ListLinkDetail");
@@ -534,6 +505,7 @@ public class TeenaviToExcelV2 {
 			
 			}
 		});
+		
 		btnCheckNewCach.setText("Check New cach 2 ");
 		btnCheckNewCach.setBounds(83, 402, 204, 37);
 		
