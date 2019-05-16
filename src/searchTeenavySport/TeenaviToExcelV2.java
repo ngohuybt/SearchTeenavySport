@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -90,14 +91,36 @@ public class TeenaviToExcelV2 {
 		}
 	}
 	
+    public static int isValid(String url) {
+    	URL u;
+		try {
+			u = new URL (url);
+	    	HttpURLConnection huc;
+			try {
+				huc = ( HttpURLConnection )  u.openConnection ();
+		    	huc.setRequestMethod ("GET");  //OR  huc.setRequestMethod ("HEAD"); 
+		    	huc.connect () ; 
+		    	int code = huc.getResponseCode() ;
+		    	System.out.println(code);
+		    	return code;
+			} catch (IOException e) {
+				 return 404; 
+			} 
+		} catch (MalformedURLException e1) {
+			 return 404; 
+		}
+    } 
+	
 	public static Map<String, String> getMapMenuId() {
 		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
-//		mapMenuId.put("FATHERS", "li#menu-item-78");
-//		mapMenuId.put("MOTHERS", "li#menu-item-69428");
+		mapMenuId.put("FATHERS", "li#menu-item-78");
+		mapMenuId.put("MOTHERS", "li#menu-item-69428");
+		
 //		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
 //		mapMenuId.put("MOVIE", "li#menu-item-54840");
 //		mapMenuId.put("CHRISTMAS", "li#menu-item-80");
 //		mapMenuId.put("DOG", "li#menu-item-76");
+		
 //		mapMenuId.put("GAMES", "li#menu-item-75");
 //		mapMenuId.put("NURSE", "li#menu-item-54842");
 //		mapMenuId.put("UNICORN", "li#menu-item-54843");
@@ -292,13 +315,15 @@ public class TeenaviToExcelV2 {
 					    		Document buyProduct;
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
-						    		buyProduct = Jsoup.connect(productLink).userAgent(
-											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-									.referrer("http://www.google.com").get();
-						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-					    			listObjLink.add(buyProductLink) ;
-//					    			valueCSV.append(buyProductLink);
-//					    			valueCSV.append("\r");
+					    	        if (isValid(productLink) != 404) {  
+							    		buyProduct = Jsoup.connect(productLink).userAgent(
+												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+										.referrer("http://www.google.com").get();
+							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+						    			listObjLink.add(buyProductLink) ;
+					    	        }else {
+					    	            System.out.println("No URL: " + productLink);   
+					    	        }
 					    		}
 					    	}
 							
@@ -393,15 +418,17 @@ public class TeenaviToExcelV2 {
 					    		Document buyProduct;
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
-						    		buyProduct = Jsoup.connect(productLink).userAgent(
-											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-									.referrer("http://www.google.com").get();
-						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
-						    			listObjLink.add(buyProductLink) ;
-//						    			valueCSV.append(buyProductLink);
-//						    			valueCSV.append("\r");
-									}
+					    	        if (isValid(productLink) != 404) {  
+							    		buyProduct = Jsoup.connect(productLink).userAgent(
+												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+										.referrer("http://www.google.com").get();
+							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+										if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+							    			listObjLink.add(buyProductLink) ;
+										}
+					    	        }else {
+					    	            System.out.println("No URL: " + productLink);   
+					    	        }
 					    		}
 					    	}
 							
