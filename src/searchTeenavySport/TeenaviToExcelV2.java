@@ -266,8 +266,8 @@ public class TeenaviToExcelV2 {
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 
 					StringBuffer content;
+					String fileName = "";
 					if (StringUtil.isBlank(link)) {
-
 						System.out.println("NO link");
 					} else {
 						if (!StringUtil.isBlank(intpage.getText())) {
@@ -285,6 +285,7 @@ public class TeenaviToExcelV2 {
 					    Set<String> set = mapMenuId.keySet();
 //					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
+					    	fileName = fileName + "_" + key;
 					    	System.out.println("Menu: " + key);
 							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
 							Document docPageForMenu = Jsoup.connect(menuLink).userAgent(
@@ -330,7 +331,7 @@ public class TeenaviToExcelV2 {
 							
 						}
 					}
-					Commond.saveCSV(listObjLink, "LinksTeenavi");
+					Commond.saveCSV(listObjLink, "LinksTeenavi" + fileName);
 					labMessage.setText("Save list data successfully");
 				} catch (IOException e1) {
 					e1.printStackTrace();
