@@ -98,7 +98,7 @@ public class TeenaviToExcelV2 {
 	    	HttpURLConnection huc;
 			try {
 				huc = ( HttpURLConnection )  u.openConnection ();
-		    	huc.setRequestMethod ("GET");  //OR  huc.setRequestMethod ("HEAD"); 
+		    	huc.setRequestMethod ("GET"); //OR  huc.setRequestMethod ("HEAD"); 
 		    	huc.connect () ; 
 		    	int code = huc.getResponseCode() ;
 		    	System.out.println(code);
@@ -113,8 +113,8 @@ public class TeenaviToExcelV2 {
 	
 	public static Map<String, String> getMapMenuId() {
 		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
-		mapMenuId.put("FATHERS", "li#menu-item-78");
-		mapMenuId.put("MOTHERS", "li#menu-item-69428");
+//		mapMenuId.put("FATHERS", "li#menu-item-78");
+//		mapMenuId.put("MOTHERS", "li#menu-item-69428");
 		
 //		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
 //		mapMenuId.put("MOVIE", "li#menu-item-54840");
@@ -316,9 +316,10 @@ public class TeenaviToExcelV2 {
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
 					    	        if (isValid(productLink) != 404) {  
-							    		buyProduct = Jsoup.connect(productLink).userAgent(
-												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-										.referrer("http://www.google.com").get();
+//							    		buyProduct = Jsoup.connect(productLink).userAgent(
+//												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+//										.referrer("http://www.google.com").get();
+					    	        	buyProduct = Jsoup.parse(new URL(productLink), 100000);
 							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
 						    			listObjLink.add(buyProductLink) ;
 					    	        }else {
@@ -419,9 +420,10 @@ public class TeenaviToExcelV2 {
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
 					    	        if (isValid(productLink) != 404) {  
-							    		buyProduct = Jsoup.connect(productLink).userAgent(
-												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-										.referrer("http://www.google.com").get();
+//							    		buyProduct = Jsoup.connect(productLink).userAgent(
+//												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+//										.referrer("http://www.google.com").get();
+							    		buyProduct = Jsoup.parse(new URL(productLink), 100000);
 							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
 										if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
 							    			listObjLink.add(buyProductLink) ;
