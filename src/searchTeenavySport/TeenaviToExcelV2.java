@@ -112,14 +112,14 @@ public class TeenaviToExcelV2 {
     } 
 	
 	public static Map<String, String> getMapMenuId() {
-		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
+//		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
 //		mapMenuId.put("FATHERS", "li#menu-item-78");
 //		mapMenuId.put("MOTHERS", "li#menu-item-69428");
 		
 //		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
 //		mapMenuId.put("MOVIE", "li#menu-item-54840");
 //		mapMenuId.put("CHRISTMAS", "li#menu-item-80");
-//		mapMenuId.put("DOG", "li#menu-item-76");
+		mapMenuId.put("DOG", "li#menu-item-76");
 		
 //		mapMenuId.put("GAMES", "li#menu-item-75");
 //		mapMenuId.put("NURSE", "li#menu-item-54842");
@@ -373,7 +373,7 @@ public class TeenaviToExcelV2 {
 					if (StringUtil.isBlank(link)) {
 						System.out.println("NO link");
 					} else 
-					{
+					{/*
 						if (!StringUtil.isBlank(intpage.getText())) {
 							page = Integer.parseInt(intpage.getText());
 						}
@@ -436,7 +436,7 @@ public class TeenaviToExcelV2 {
 					    	}
 							
 						}
-						
+						**/
 						//---------------------------------------------
 						//https://teenavi.com/product_cat-sitemap.xml
 						link="https://teenavi.com/product_cat-sitemap.xml"; 
@@ -493,18 +493,31 @@ public class TeenaviToExcelV2 {
 								for (Element element2 : itemcategory) {
 									linkdetail = element2.attr("href");
 									x++;
-									if (linkdetail.contains("%"))
-										continue;
-						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
-											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-									.referrer("http://www.google.com").get();
-						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
-						    			listObjLink.add(buyProductLink) ;
-									}
+					    	        if (isValid(linkdetail) != 404) {  
+							    		buyProduct = Jsoup.parse(new URL(linkdetail), 100000);
+							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+										if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+							    			listObjLink.add(buyProductLink) ;
+										}
+					    	        }else {
+					    	            System.out.println("No URL: " + linkdetail);   
+					    	        }
+									
+//									if (linkdetail.contains("%"))
+//										continue;
+//						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
+//											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+//									.referrer("http://www.google.com").get();
+//						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+//									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+//						    			listObjLink.add(buyProductLink) ;
+//									}
 								}
 							}
-							
+							// Lưu mỗi link thành 1 file
+							Commond.saveCSV(listObjLink, "LinksTeenavi_cat-sitemap_" + i);
+							listObjLink = new ArrayList<String>();
+							System.out.println("Save CSV :" + "LinksTeenavi_cat-sitemap_" + i);
 						}
 						//https://teenavi.com/sitemap_index.xml
 						String linksitemap="";
@@ -541,7 +554,8 @@ public class TeenaviToExcelV2 {
 							}
 						}
 					}
-					Commond.saveCSV(listObjLink, "LinksTeenavi");
+					Commond.saveCSV(listObjLink, "LinksTeenavi_sitemap_index");
+					System.out.println("Save CSV :" + "LinksTeenavi_sitemap_index_");
 					//Commond.saveFile(listObjLink, "txt", "ListLinkDetail");
 					labMessage.setText("Save list data successfully");
 				} catch (IOException e1) {
