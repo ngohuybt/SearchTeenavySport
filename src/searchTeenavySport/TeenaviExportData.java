@@ -1418,9 +1418,12 @@ public class TeenaviExportData {
 					if (!"XXX".equals(arrLink[0]))
 						title = arrLink[1];
 
+				}else {
+					linkHref = arrLink[0];
 				}
 
-				if (linkHref.contains("https://teenavi.net") || linkHref.contains("https://www.teenavi.net")) {
+//				if (linkHref.contains("https://teenavi.net") || linkHref.contains("https://www.teenavi.net")) {
+				if (true) {
 					Document docPageMain;
 					try {
 						docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
@@ -1445,12 +1448,13 @@ public class TeenaviExportData {
 						Gson gson = new Gson();
 						// convert your list to json
 //						String jsonCartList = gson.toJson(myPojo);
-						myPojo = mapper.readValue(data, new TypeReference<MyPojo>() {
-						});
-						if (myPojo.getState().getStore().getCampaigns().size() > 0)
-							linkHref = linkHref + "/" + myPojo.getState().getStore().getCampaigns().get(0).getSlug()
-									+ "?locale=en&user_currency=USD";
-						System.out.println("linkHref : " + linkHref  );
+						//huynnp
+//						myPojo = mapper.readValue(data, new TypeReference<MyPojo>() {
+//						});
+//						if (myPojo.getState().getStore().getCampaigns().size() > 0)
+//							linkHref = linkHref + "/" + myPojo.getState().getStore().getCampaigns().get(0).getSlug()
+//									+ "?locale=en&user_currency=USD";
+//						System.out.println("linkHref : " + linkHref  );
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						flagEx = true;
