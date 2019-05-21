@@ -354,7 +354,7 @@ public class TeenaviToExcelV2 {
 				String Title;
 				int submain = 0;
 				String NameFileOut = "";
-				int page = 0;
+				int page = 1;
 				String linkSunTotle;
 				String Category="";
 				StringBuffer contentChild;
@@ -470,7 +470,7 @@ public class TeenaviToExcelV2 {
 
 							}
 							System.out.println( linkHref + "[pagination=" + String.valueOf(pageEnd) + "]");
-							for (int ii = page; ii < pageEnd; ii++) {
+							for (int ii = page; ii <= pageEnd; ii++) {
 								System.out.println("		 " + linkHref + "page/"
 										+ String.valueOf(ii)+"/");
 								Document document2;
@@ -515,44 +515,44 @@ public class TeenaviToExcelV2 {
 								}
 							}
 							// Lưu mỗi link thành 1 file
-							Commond.saveCSV(listObjLink, "LinksTeenavi_cat-sitemap_" + i);
+							Commond.saveCSV(listObjLink, "LinksTeenavi_cat-sitemap_" + i + "_index");
 							listObjLink = new ArrayList<String>();
 							System.out.println("Save CSV :" + "LinksTeenavi_cat-sitemap_" + i);
 						}
 						//https://teenavi.com/sitemap_index.xml
-						String linksitemap="";
-						link="https://teenavi.com/sitemap_index.xml";
-						System.out.println("Find https://teenavi.com/sitemap_index.xml");
-						content = Commond.getContentURL(link);
-						str =content.toString();
-						doc = Jsoup.parse(str, "", Parser.xmlParser());
-						trm=new TemplateURLSitemap();
-						for (int i=0;i< doc.select("loc").size();i++) {
-							linksitemap=doc.select("loc").get(i).text();
-							if(linksitemap.contains("/product-sitemap")){
-								System.out.println(linksitemap);
-								content = Commond.getContentURL(linksitemap);			 
-								String strm =content.toString();
-								docDetail = Jsoup.parse(strm, "", Parser.xmlParser());
-								trm=new TemplateURLSitemap();
-								Document buyProduct;
-								for (int x=0;x< docDetail.select("loc").size();x++) {
-									//System.out.println(doc.select("loc").get(x).text() );
-									linkdetail =docDetail.select("loc").get(x).text() ;
-									x++;
-									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
-										continue;
-									
-						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
-											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-									.referrer("http://www.google.com").get();
-						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
-						    			listObjLink.add(buyProductLink) ;
-									}
-								}
-							}
-						}
+//						String linksitemap="";
+//						link="https://teenavi.com/sitemap_index.xml";
+//						System.out.println("Find https://teenavi.com/sitemap_index.xml");
+//						content = Commond.getContentURL(link);
+//						str =content.toString();
+//						doc = Jsoup.parse(str, "", Parser.xmlParser());
+//						trm=new TemplateURLSitemap();
+//						for (int i=0;i< doc.select("loc").size();i++) {
+//							linksitemap=doc.select("loc").get(i).text();
+//							if(linksitemap.contains("/product-sitemap")){
+//								System.out.println(linksitemap);
+//								content = Commond.getContentURL(linksitemap);			 
+//								String strm =content.toString();
+//								docDetail = Jsoup.parse(strm, "", Parser.xmlParser());
+//								trm=new TemplateURLSitemap();
+//								Document buyProduct;
+//								for (int x=0;x< docDetail.select("loc").size();x++) {
+//									//System.out.println(doc.select("loc").get(x).text() );
+//									linkdetail =docDetail.select("loc").get(x).text() ;
+//									x++;
+//									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
+//										continue;
+//									
+//						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
+//											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+//									.referrer("http://www.google.com").get();
+//						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+//									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+//						    			listObjLink.add(buyProductLink) ;
+//									}
+//								}
+//							}
+//						}
 					}
 					Commond.saveCSV(listObjLink, "LinksTeenavi_sitemap_index");
 					System.out.println("Save CSV :" + "LinksTeenavi_sitemap_index_");
