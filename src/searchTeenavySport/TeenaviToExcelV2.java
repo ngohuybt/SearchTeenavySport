@@ -470,7 +470,8 @@ public class TeenaviToExcelV2 {
 
 							}
 							System.out.println( linkHref + "[pagination=" + String.valueOf(pageEnd) + "]");
-							for (int ii = page; ii <= pageEnd; ii++) {
+//							for (int ii = page; ii <= pageEnd; ii++) {
+							for (int ii = 126; ii <= pageEnd; ii++) {
 								System.out.println("		 " + linkHref + "page/"
 										+ String.valueOf(ii)+"/");
 								Document document2;
@@ -493,15 +494,11 @@ public class TeenaviToExcelV2 {
 								for (Element element2 : itemcategory) {
 									linkdetail = element2.attr("href");
 									x++;
-					    	        if (isValid(linkdetail) != 404) {  
-							    		buyProduct = Jsoup.parse(new URL(linkdetail), 100000);
-							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-										if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
-							    			listObjLink.add(buyProductLink) ;
-										}
-					    	        }else {
-					    	            System.out.println("No URL: " + linkdetail);   
-					    	        }
+						    		buyProduct = Jsoup.parse(new URL(linkdetail), 100000);
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+						    			listObjLink.add(buyProductLink) ;
+									}
 									
 //									if (linkdetail.contains("%"))
 //										continue;
@@ -513,12 +510,21 @@ public class TeenaviToExcelV2 {
 //						    			listObjLink.add(buyProductLink) ;
 //									}
 								}
+								// 5 page luu thanh 1 file
+								int mod = ii % 5;
+								if(mod == 0) {
+									// Lưu mỗi link thành 1 file
+									Commond.saveCSV(listObjLink, "LinksTeenavi_cat_sitemap_link" + i + "_page_" + ii);
+									listObjLink = new ArrayList<String>();
+									System.out.println("Save CSV :" + "LinksTeenavi_cat_sitemap_link" + i + "_page_" + ii);
+								}
 							}
 							// Lưu mỗi link thành 1 file
-							Commond.saveCSV(listObjLink, "LinksTeenavi_cat-sitemap_" + i + "_index");
-							listObjLink = new ArrayList<String>();
-							System.out.println("Save CSV :" + "LinksTeenavi_cat-sitemap_" + i);
+//							Commond.saveCSV(listObjLink, "LinksTeenavi_cat-sitemap_" + i);
+//							listObjLink = new ArrayList<String>();
+//							System.out.println("Save CSV :" + "LinksTeenavi_cat-sitemap_" + i);
 						}
+						
 						//https://teenavi.com/sitemap_index.xml
 //						String linksitemap="";
 //						link="https://teenavi.com/sitemap_index.xml";
