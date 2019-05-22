@@ -24,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jsoup.helper.StringUtil;
 
+import moteefeObj.LinkTitle;
 import moteefeObj.TemplatePestra;
 import searchTeenavySport.CSVUtils;
 import searchTeenavySport.Template;
@@ -65,6 +66,41 @@ public class Commond {
 			}
 			return true;
 		}
+	
+	static public boolean saveLinkTitleCSV(ArrayList<LinkTitle> a,String namefile) {
+
+		if (namefile.isEmpty()) {
+				namefile = "Export";
+			}
+			FileWriter writer;
+			Date date = new Date();
+			try {
+				String csvFile = namefile + "_" + ft.format(date) + ".csv";
+				writer = new FileWriter(csvFile);
+				String[] arrayLink = {};
+				String link1 = "";
+				String title1 = "";
+				CSVUtils.writeLine(writer, Arrays.asList("URL", "Title"), ',', '"');
+				Template temp1 = new Template();
+				for (int i = 0; i < a.size(); i++) {
+
+					link1 = a.get(i).getBuyProductLink();
+					title1 = a.get(i).getTitle();
+					List<String> list = new ArrayList<>();
+					list.add(link1);
+					list.add(title1);
+
+					CSVUtils.writeLine(writer, list, ',', ' ');
+				}
+				writer.flush();
+				writer.close(); 
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return true;
+		}
+	
 	static StringBuffer getContentURL(String urlLink) throws IOException {
 		URL url;
 		StringBuffer doc = new StringBuffer();

@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import moteefeObj.LinkTitle;
+
 public class CSVUtils {
 	private static final Log log = LogFactory.getLog(CSVUtils.class);
 	private static final char DEFAULT_SEPARATOR = ',';
