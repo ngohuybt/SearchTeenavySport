@@ -115,15 +115,15 @@ public class TeenaviToExcelV2 {
     } 
 	
 	public static Map<String, String> getMapMenuId() {
-		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
+//		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
 //		mapMenuId.put("FATHERS", "li#menu-item-78");
 //		mapMenuId.put("MOTHERS", "li#menu-item-69428");
-		
+//		
 //		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
-//		mapMenuId.put("MOVIE", "li#menu-item-54840");
+		mapMenuId.put("MOVIE", "li#menu-item-54840");
 //		mapMenuId.put("CHRISTMAS", "li#menu-item-80");
 //		mapMenuId.put("DOG", "li#menu-item-76");
-		
+//		
 //		mapMenuId.put("GAMES", "li#menu-item-75");
 //		mapMenuId.put("NURSE", "li#menu-item-54842");
 //		mapMenuId.put("UNICORN", "li#menu-item-54843");
@@ -359,7 +359,7 @@ public class TeenaviToExcelV2 {
 				String Title;
 				int submain = 0;
 				String NameFileOut = "";
-				int page = 1;
+				int page = 0;
 				String linkSunTotle;
 				String Category="";
 				StringBuffer contentChild;
@@ -375,10 +375,11 @@ public class TeenaviToExcelV2 {
 					Document document;
 					Document doc ;
 					Document docDetail ;
+					String fileName = "";
 					if (StringUtil.isBlank(link)) {
 						System.out.println("NO link");
 					} else 
-					{/*
+					{
 						if (!StringUtil.isBlank(intpage.getText())) {
 							page = Integer.parseInt(intpage.getText());
 						}
@@ -395,6 +396,7 @@ public class TeenaviToExcelV2 {
 					    Set<String> set = mapMenuId.keySet();
 //					    StringBuilder valueCSV = new StringBuilder();
 					    for (String key : set) {
+					    	fileName = fileName + "_" + key;
 					    	System.out.println("Menu: " + key);
 							String menuLink = document.select(mapMenuId.get(key)).select("a").first().attr("href") ;
 							Document docPageForMenu = Jsoup.connect(menuLink).userAgent(
@@ -425,23 +427,28 @@ public class TeenaviToExcelV2 {
 					    		Document buyProduct;
 					    		for (int j = 0; j < 12; j++) {
 					    			String productLink = documentValue.select("div.image-none a").get(j).attr("href") ;
-					    	        if (isValid(productLink) != 404) {  
+//					    	        if (isValid(productLink) != 404) {  
 //							    		buyProduct = Jsoup.connect(productLink).userAgent(
 //												"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
 //										.referrer("http://www.google.com").get();
+			    	        	
 							    		buyProduct = Jsoup.parse(new URL(productLink), 100000);
 							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
 										if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+											String title = buyProduct.select("div.product-info h1").get(0).text();
+								    		LinkTitle linkTitle = new LinkTitle(buyProductLink, title);
+								    		listLinkTitle.add(linkTitle) ;
 							    			listObjLink.add(buyProductLink) ;
 										}
-					    	        }else {
-					    	            System.out.println("No URL: " + productLink);   
-					    	        }
+//					    	        }else {
+//					    	            System.out.println("No URL: " + productLink);   
+//					    	        }
 					    		}
 					    	}
 							
 						}
-						**/
+						
+						/*
 						//---------------------------------------------
 						//https://teenavi.com/product_cat-sitemap.xml
 						link="https://teenavi.com/product_cat-sitemap.xml"; 
@@ -529,43 +536,47 @@ public class TeenaviToExcelV2 {
 //							listObjLink = new ArrayList<String>();
 //							System.out.println("Save CSV :" + "LinksTeenavi_cat-sitemap_" + i);
 						}
+						**/
 						
+						/*
 						//https://teenavi.com/sitemap_index.xml
-//						String linksitemap="";
-//						link="https://teenavi.com/sitemap_index.xml";
-//						System.out.println("Find https://teenavi.com/sitemap_index.xml");
-//						content = Commond.getContentURL(link);
-//						str =content.toString();
-//						doc = Jsoup.parse(str, "", Parser.xmlParser());
-//						trm=new TemplateURLSitemap();
-//						for (int i=0;i< doc.select("loc").size();i++) {
-//							linksitemap=doc.select("loc").get(i).text();
-//							if(linksitemap.contains("/product-sitemap")){
-//								System.out.println(linksitemap);
-//								content = Commond.getContentURL(linksitemap);			 
-//								String strm =content.toString();
-//								docDetail = Jsoup.parse(strm, "", Parser.xmlParser());
-//								trm=new TemplateURLSitemap();
-//								Document buyProduct;
-//								for (int x=0;x< docDetail.select("loc").size();x++) {
-//									//System.out.println(doc.select("loc").get(x).text() );
-//									linkdetail =docDetail.select("loc").get(x).text() ;
-//									x++;
-//									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
-//										continue;
-//									
-//						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
-//											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
-//									.referrer("http://www.google.com").get();
-//						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-//									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
-//						    			listObjLink.add(buyProductLink) ;
-//									}
-//								}
-//							}
-//						}
+						String linksitemap="";
+						link="https://teenavi.com/sitemap_index.xml";
+						System.out.println("Find https://teenavi.com/sitemap_index.xml");
+						content = Commond.getContentURL(link);
+						str =content.toString();
+						doc = Jsoup.parse(str, "", Parser.xmlParser());
+						trm=new TemplateURLSitemap();
+						for (int i=0;i< doc.select("loc").size();i++) {
+							linksitemap=doc.select("loc").get(i).text();
+							if(linksitemap.contains("/product-sitemap")){
+								System.out.println(linksitemap);
+								content = Commond.getContentURL(linksitemap);			 
+								String strm =content.toString();
+								docDetail = Jsoup.parse(strm, "", Parser.xmlParser());
+								trm=new TemplateURLSitemap();
+								Document buyProduct;
+								for (int x=0;x< docDetail.select("loc").size();x++) {
+									//System.out.println(doc.select("loc").get(x).text() );
+									linkdetail =docDetail.select("loc").get(x).text() ;
+									x++;
+									if (linkdetail.contains("%")||!linkdetail.contains("/product/"))
+										continue;
+									
+						    		buyProduct = Jsoup.connect(linkdetail).userAgent(
+											"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").timeout(100000)
+									.referrer("http://www.google.com").get();
+						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
+						    			listObjLink.add(buyProductLink) ;
+									}
+								}
+							}
+						}
+					    **/
 					}
-					Commond.saveCSV(listObjLink, "LinksTeenavi_sitemap_index");
+//					Commond.saveCSV(listObjLink, "LinksTeenavi_sitemap_index");
+					Commond.saveLinkTitleCSV(listLinkTitle, "LinksTeenavi" + fileName);
 					System.out.println("Save CSV :" + "LinksTeenavi_sitemap_index_");
 					//Commond.saveFile(listObjLink, "txt", "ListLinkDetail");
 					labMessage.setText("Save list data successfully");
