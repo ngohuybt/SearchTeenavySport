@@ -1488,21 +1488,7 @@ public class MofeeshirtExportData {
 //					String productLink5 = productLink4.substring(productLink4.indexOf("='") + 2, productLink4.length() -2);
 //					String productLink6 = documentChild.select("div.btn-group label input").first().attr("title") ;
 //					String productLink7 = documentChild.select("label[for=" + productLink6 + "]").first().attr("onclick") ;
-					
-//					Element scriptElement = documentChild.select("script").get(2);
-//
-//					String data = "";
-//					for (DataNode node : scriptElement.dataNodes()) {
-//						data = node.getWholeData().substring(
-//								node.getWholeData().indexOf("{\"@id\":\"1\",\"campaignCheckList\""),
-//								node.getWholeData().indexOf("var globalProductDetails") - 5);
-//					}
-//
-//					ObjectMapper mapper = new ObjectMapper();
-//					mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//					RootObjectCampfirepark rootObject = new RootObjectCampfirepark();
-//					rootObject = mapper.readValue(data, new TypeReference<RootObjectCampfirepark>() {
-//					});
+
 					String imageMoteefeNo = "";
 					System.out.println("Title  : " + title);
 					title = Commond.replaceString(arrayStringShirt, title, " ");
@@ -1583,6 +1569,9 @@ public class MofeeshirtExportData {
 												.referrer("http://www.google.com").ignoreContentType(true).get();
 										docPageImageChild = Jsoup.parse(docPageImage.toString());
 										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
 										colorMoteefe = labelColor;
 									}
 									
@@ -1595,6 +1584,9 @@ public class MofeeshirtExportData {
 												.referrer("http://www.google.com").ignoreContentType(true).get();
 										docPageImageChild = Jsoup.parse(docPageImage.toString());
 										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
 										colorMoteefe = labelColor;
 									}
 									
@@ -1607,6 +1599,9 @@ public class MofeeshirtExportData {
 												.referrer("http://www.google.com").ignoreContentType(true).get();
 										docPageImageChild = Jsoup.parse(docPageImage.toString());
 										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
 										colorMoteefe = labelColor;
 									}
 									
@@ -1619,6 +1614,9 @@ public class MofeeshirtExportData {
 												.referrer("http://www.google.com").ignoreContentType(true).get();
 										docPageImageChild = Jsoup.parse(docPageImage.toString());
 										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
 										colorMoteefe = labelColor;
 									}
 									if(!"".equals(colorMoteefe)) {
