@@ -64,7 +64,7 @@ import moteefeObj.RootObjectCampfirepark;
 import moteefeObj.TemplatePestra;
 import moteefeObj.VariantCampfirepark;
 
-public class TeenaviExportData {
+public class VinpremiumExportData {
 
 	protected Shell shlExportExcel;
 	final JFrame jFrame = new JFrame("Simple hello Example");
@@ -82,7 +82,7 @@ public class TeenaviExportData {
 	private String sellerID = "";
 	private String nameStore = "";
 	private String hostName = "";
-	private static final Log log = LogFactory.getLog(TeenaviExportData.class);
+	private static final Log log = LogFactory.getLog(VinpremiumExportData.class);
 	private Text txtLink;
 	int[] styles = { SWT.SINGLE, SWT.MULTI };
 	private Display display = new Display();
@@ -98,7 +98,6 @@ public class TeenaviExportData {
 	private Text txtQuantity;
 	private Text txtCategory;
 	private Button ckbGreen;
-	private Button ckbRed;
 	ArrayList<String> arrayStringShirt = new ArrayList<String>();
 	private Text txtTshirtPrice;
 	private Text txtWomenTshirtPrice;
@@ -112,7 +111,7 @@ public class TeenaviExportData {
 	 */
 	public static void main(String[] args) {
 		try {
-			TeenaviExportData window = new TeenaviExportData();
+			VinpremiumExportData window = new VinpremiumExportData();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,12 +167,12 @@ public class TeenaviExportData {
 		txtLink.setBounds(176, 49, 267, 26);
 
 		Button btnAdd = new Button(group_1, SWT.NONE);
-		btnAdd.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/add.png"));
+		btnAdd.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/add.png"));
 
 		btnAdd.setBounds(33, 308, 53, 26);
 
 		Button btnSave = new Button(group_1, SWT.NONE);
-		btnSave.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/003-save.png"));
+		btnSave.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/003-save.png"));
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -215,7 +214,7 @@ public class TeenaviExportData {
 		});
 		btnSave.setBounds(151, 308, 53, 26);
 		Button btnNewButton_2 = new Button(group_1, SWT.NONE);
-		btnNewButton_2.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/001-folder.png"));
+		btnNewButton_2.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/001-folder.png"));
 		btnNewButton_2.setBounds(212, 308, 53, 26);
 		ListViewer listViewer = new ListViewer(group_1, SWT.BORDER | SWT.V_SCROLL);
 		org.eclipse.swt.widgets.List listDataView = listViewer.getList();
@@ -232,7 +231,7 @@ public class TeenaviExportData {
 		lbStatus.setBounds(54, 23, 396, 20);
 
 		Button btnDelete = new Button(group_1, SWT.NONE);
-		btnDelete.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/005-minus.png"));
+		btnDelete.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/005-minus.png"));
 		btnDelete.setBounds(92, 308, 53, 26);
 
 		textNameFileOut = new Text(group_1, SWT.BORDER);
@@ -501,32 +500,26 @@ public class TeenaviExportData {
 					ckbColorBlack.setSelection(true);
 					ckbColorNavyblue.setSelection(true);
 					ckbGreen.setSelection(true);
-					ckbRed.setSelection(true);
 
 					ckbColorBlack.setEnabled(false);
 					ckbColorNavyblue.setEnabled(false);
 					ckbGreen.setEnabled(false);
-					ckbRed.setEnabled(false);
 					arrayColor.add(ckbColorBlack.getText());
 					arrayColor.add(ckbColorNavyblue.getText());
 					arrayColor.add(ckbGreen.getText());
-					arrayColor.add(ckbRed.getText());
 				} else {
 					ckbColorBlack.setSelection(true);
 					ckbColorNavyblue.setSelection(true);
 					ckbGreen.setSelection(true);
-					ckbRed.setSelection(true);
 
 					ckbColorBlack.setEnabled(true);
 					ckbColorNavyblue.setEnabled(true);
 					ckbGreen.setSelection(true);
-					ckbRed.setSelection(true);
 
 					arrayColor = new ArrayList<String>();
 					arrayColor.add(ckbColorBlack.getText());
 					arrayColor.add(ckbColorNavyblue.getText());
 					arrayColor.add(ckbGreen.getText());
-					arrayColor.add(ckbRed.getText());
 				}
 			}
 		});
@@ -599,7 +592,7 @@ public class TeenaviExportData {
 		arrayStyle.add(ckSweatshirtUnisex.getText());
 		Button btnExport = new Button(group_1, SWT.NONE);
 
-		btnExport.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/006-export.png"));
+		btnExport.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/006-export.png"));
 		btnExport.setBounds(631, 308, 111, 26);
 
 		Label lblNewLabel = new Label(group_1, SWT.NONE);
@@ -666,7 +659,7 @@ public class TeenaviExportData {
 				listViewer.getList().removeAll();
 			}
 		});
-		button.setImage(SWTResourceManager.getImage(TeenaviExportData.class, "/png/delete.png"));
+		button.setImage(SWTResourceManager.getImage(VinpremiumExportData.class, "/png/delete.png"));
 		button.setBounds(271, 308, 53, 26);
 
 		ckbGreen = new Button(group_1, SWT.CHECK);
@@ -717,21 +710,6 @@ public class TeenaviExportData {
 		txtHoddiesPrice = new Text(group_1, SWT.BORDER);
 		txtHoddiesPrice.setText("39.95");
 		txtHoddiesPrice.setBounds(634, 241, 49, 26);
-		
-		ckbRed = new Button(group_1, SWT.CHECK);
-		ckbRed.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (ckbRed.getSelection()) {
-					arrayColor.add(ckbRed.getText());
-
-				} else {
-					arrayColor.remove(ckbRed.getText());
-				}
-			}
-		});
-		ckbRed.setText("Red");
-		ckbRed.setBounds(594, 662, 111, 20);
 
 		btnExport.addSelectionListener(new SelectionAdapter() {
 
@@ -764,12 +742,10 @@ public class TeenaviExportData {
 				hashMapMoteefeeColor.put("Black", "black");
 				hashMapMoteefeeColor.put("NavyBlue", "navy blue");
 				hashMapMoteefeeColor.put("Green", "green");
-				hashMapMoteefeeColor.put("Red", "red");
 
 				hashMapMoteefeeColorHoddie.put("Black", "jet black");
 				hashMapMoteefeeColorHoddie.put("NavyBlue", "oxford navy");
 				hashMapMoteefeeColorHoddie.put("Green", "green");
-				hashMapMoteefeeColorHoddie.put("Red", "red");
 
 				hashStyleMap.put("Men's T-Shirt", "Men-T-Shirt");
 				hashStyleMap.put("Women's T-Shirt", "Women-T-Shirt");
@@ -817,25 +793,7 @@ public class TeenaviExportData {
 				ArrayList<Template> listObjLink = new ArrayList<Template>();
 				for (String link : dataListView) {
 					listObjLink = new ArrayList<Template>();
-					if (link.contains("https://teenavi.com")) {
-						listObjLink = contentChildGetTeeNavi(link, "");
-					}
-					if (link.contains("https://campfirepark.net")) {
-						listObjLink = contentChildGetCampfirepark(link, "");
-					}
-					if (link.contains("https://moteefe.com")) {
-						listObjLink = contentChild(link, "");
-					}
-					
-//					if(link.contains("https://moteefe.com")) {
-//						listObjLink = contentChild(link, "");
-//					}else {
-//						if(link.contains("https://campfirepark.net")) {
-//							listObjLink = contentChildGetCampfirepark(link, "");
-//						}else {
-//							listObjLink = contentChildGetTeeNavi(link, "");
-//						}
-//					}
+					listObjLink = contentChild(link, "");
 					for (Template template : listObjLink) {
 						listObjs.add(template);
 					}
@@ -1496,25 +1454,6 @@ public class TeenaviExportData {
 					if ("Sweatshirt".equals(styleTemp)) {
 						price = 29.95;
 					}
-					
-					double pricetmp = 0;
-					if ("Men-T-Shirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtTshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Women-T-Shirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Hoodie".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtHoddiesPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Sweatshirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					
 					for (String size : arraySize) {
 						objTemplate = new Template();
 						// Set titel for data Excel
@@ -1644,8 +1583,6 @@ public class TeenaviExportData {
 										colorMoteefe = hashMapMoteefeeColor.get(labelColor);
 										if ("navy blue".equals(colorMoteefe)) {
 											colorMoteefeTemp = "Navy";
-										} else if("red".equals(colorMoteefe)) {
-											colorMoteefeTemp = "Red";
 										} else {
 											colorMoteefeTemp = "Deep+Forest";
 										}
@@ -1656,8 +1593,6 @@ public class TeenaviExportData {
 										colorMoteefe = hashMapMoteefeeColorHoddie.get(labelColor);
 										if ("oxford navy".equals(colorMoteefe)) {
 											colorMoteefeTemp = "Navy";
-										} else if("red".equals(colorMoteefe)) {
-											colorMoteefeTemp = "Red";
 										} else {
 											colorMoteefeTemp = "Forest+Green";
 										}
@@ -1946,24 +1881,8 @@ public class TeenaviExportData {
 											for (Campaign_products campaignpro : rootObject.getState().getPage()
 													.getCampaign_products()) {
 												if (campaignpro.getProduct_id().equals(idProduct)) {
-//													pricetmp = Float.valueOf(campaignpro.getPrice());
-//													price = (double) Math.round(pricetmp * 100) / 100;
-													if ("Men's T-Shirt".equals(styleMoteefeNo)) {
-														pricetmp = Float.valueOf(txtTshirtPrice.getText());
-														price = (double) Math.round(pricetmp * 100) / 100;
-													}
-													if ("Women's T-Shirt".equals(styleMoteefeNo)) {
-														pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
-														price = (double) Math.round(pricetmp * 100) / 100;
-													}
-													if ("Unisex Hoodie".equals(styleMoteefeNo)) {
-														pricetmp = Float.valueOf(txtHoddiesPrice.getText());
-														price = (double) Math.round(pricetmp * 100) / 100;
-													}
-													if ("Unisex Sweatshirt".equals(styleMoteefeNo)) {
-														pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
-														price = (double) Math.round(pricetmp * 100) / 100;
-													}
+													pricetmp = Float.valueOf(campaignpro.getPrice());
+													price = (double) Math.round(pricetmp * 100) / 100;
 													break;
 												}
 											}
