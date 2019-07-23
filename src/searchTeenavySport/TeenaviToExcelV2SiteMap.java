@@ -79,6 +79,9 @@ public class TeenaviToExcelV2SiteMap {
 	private Button btnCheckNew;
 	private Button btnCheckNewCach;
 	private static String siteMaplink = "";
+	private static int siteMapStart ;
+	private static int siteMapEnd ;
+	private static String siteMapSearch ;
 	
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
@@ -88,7 +91,10 @@ public class TeenaviToExcelV2SiteMap {
 	public static void main(String[] args) {
 		try {
 			TeenaviToExcelV2SiteMap window = new TeenaviToExcelV2SiteMap();
-			window.siteMaplink = getSiteMaplink();
+			TeenaviToExcelV2SiteMap.siteMaplink = getSiteMaplink();
+			TeenaviToExcelV2SiteMap.siteMapStart = 5;
+			TeenaviToExcelV2SiteMap.siteMapEnd = 35;
+			TeenaviToExcelV2SiteMap.siteMapSearch = "halloween";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -116,7 +122,8 @@ public class TeenaviToExcelV2SiteMap {
     } 
 	
 	public static String getSiteMaplink() {
-		siteMaplink = "https://teenavi.com/product-sitemap35.xml";
+//		siteMaplink = "https://teenavi.com/product-sitemap35.xml";
+		siteMaplink = "https://teenavi.com/product-sitemap";
 		return siteMaplink;
 	}
 
@@ -248,22 +255,29 @@ public class TeenaviToExcelV2SiteMap {
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 					Document buyProduct;
 					String linksitemap="";
-					String fileName = "";
-					fileName = siteMaplink.substring(20, siteMaplink.indexOf(".xml"));
-					System.out.println("Find: " + siteMaplink);
-					content = Commond.getContentURL(siteMaplink);
-					str = content.toString();
-					doc = Jsoup.parse(str, "", Parser.xmlParser());
-					for (int i=0;i< doc.select("loc").size();i++) {
-						linksitemap = doc.select("loc").get(i).text();
-						System.out.println(linksitemap);
-						if (isValid(linksitemap) != 404) {
-		    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-				    		String title = buyProduct.select("div.product-info h1").get(0).text();
-				    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
-				    		listLinkTitle.add(linkTitle) ;
+					String fileName = siteMapSearch + "_" + siteMapStart + "_" + siteMapEnd;
+//					fileName = siteMaplink.substring(20, siteMaplink.indexOf(".xml"));
+					String siteMaplinkTemp = "";
+					for (int j= siteMapStart; j< siteMapEnd + 1; j++) {
+						siteMaplinkTemp = siteMaplink + j + ".xml";
+						System.out.println("Find: " + siteMaplinkTemp);
+						content = Commond.getContentURL(siteMaplinkTemp);
+						str = content.toString();
+						doc = Jsoup.parse(str, "", Parser.xmlParser());
+						for (int i=0;i< doc.select("loc").size();i++) {
+							linksitemap = doc.select("loc").get(i).text();
+						    if(linksitemap.contains(siteMapSearch)) {
+								System.out.println(linksitemap);
+								if (isValid(linksitemap) != 404) {
+				    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+						    		String title = buyProduct.select("div.product-info h1").get(0).text();
+						    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
+						    		listLinkTitle.add(linkTitle) ;
+								}
+						    }
 						}
 					}
+					
 					Commond.saveLinkTitleCSV(listLinkTitle, "LinksTeenavi" + fileName);
 					System.out.println("Save CSV successfully:" + "LinksTeenavi" + fileName);
 					labMessage.setText("Save list data successfully");
@@ -296,30 +310,37 @@ public class TeenaviToExcelV2SiteMap {
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 						Document buyProduct;
 						String linksitemap="";
-						String fileName = "";
-						fileName = siteMaplink.substring(20, siteMaplink.indexOf(".xml"));
-						System.out.println("Find: " + siteMaplink);
-						content = Commond.getContentURL(siteMaplink);
-						str = content.toString();
-						doc = Jsoup.parse(str, "", Parser.xmlParser());
-						for (int i=0;i< doc.select("loc").size();i++) {
-							linksitemap = doc.select("loc").get(i).text();
-							System.out.println(linksitemap);
-							if(!dataListLnk.contains(linksitemap)){
-								if (isValid(linksitemap) != 404) {
-						        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-						    		String title = buyProduct.select("div.product-info h1").get(0).text();
-							    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
-							    		listLinkTitle.add(linkTitle) ;
-								}
+						String fileName = siteMapSearch + "_" + siteMapStart + "_" + siteMapEnd;
+//						fileName = siteMaplink.substring(20, siteMaplink.indexOf(".xml"));
+						String siteMaplinkTemp = "";
+						for (int j= siteMapStart; j< siteMapEnd + 1; j++) {
+							siteMaplinkTemp = siteMaplink + j + ".xml";
+							System.out.println("Find: " + siteMaplinkTemp);
+							content = Commond.getContentURL(siteMaplinkTemp);
+							str = content.toString();
+							doc = Jsoup.parse(str, "", Parser.xmlParser());
+							for (int i=0;i< doc.select("loc").size();i++) {
+								linksitemap = doc.select("loc").get(i).text();
+							    if(linksitemap.contains(siteMapSearch)) {
+									System.out.println(linksitemap);
+									if(!dataListLnk.contains(linksitemap)){
+										if (isValid(linksitemap) != 404) {
+						    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+								    		String title = buyProduct.select("div.product-info h1").get(0).text();
+								    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
+								    		listLinkTitle.add(linkTitle) ;
+										}
+									}
+							    }
 							}
 						}
+						
 						Commond.saveLinkTitleCSV(listLinkTitle, "LinksTeenavi" + fileName);
 						System.out.println("Save CSV successfully:" + "LinksTeenavi" + fileName);
 						labMessage.setText("Save list data successfully");
 					} catch (IOException e1) {
 						e1.printStackTrace();
-					}						
+					}
 				}
 			}
 		});
