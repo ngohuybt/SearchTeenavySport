@@ -66,6 +66,7 @@ public class TeenaviToExcelV2SiteMap {
 	private Display display = new Display();
 	private List<String> dataListView = new ArrayList<String>();
 	private List<String> dataListLnk = new ArrayList<String>();
+	private List<String> dataListTitleOrigin = new ArrayList<String>();
 	HashMap<String, String> listColor;
 	private Text textNameFileOut;
 	Label labMessage;
@@ -82,6 +83,8 @@ public class TeenaviToExcelV2SiteMap {
 	private static int siteMapStart ;
 	private static int siteMapEnd ;
 	private static String siteMapSearch ;
+	private Button button_2;
+	private Button button_4;
 	
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
@@ -161,7 +164,7 @@ public class TeenaviToExcelV2SiteMap {
 		 */
 
 		Group grrr = new Group(shlExportExcel, SWT.NONE);
-		grrr.setBounds(10, 10, 731, 569);
+		grrr.setBounds(73, 10, 731, 569);
 
 		labMessage = new Label(grrr, SWT.NONE);
 		labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
@@ -234,9 +237,9 @@ public class TeenaviToExcelV2SiteMap {
 
 			}
 		});
-		button_1.setText("Open File");
+		button_1.setText("Open File CSV Get URL");
 		button_1.setImage(SWTResourceManager.getImage(TeenaviToExcelV2SiteMap.class, "/png/001-folder.png"));
-		button_1.setBounds(154, 222, 111, 30);
+		button_1.setBounds(154, 222, 165, 30);
 		Button button = new Button(grrr, SWT.NONE);
 		button.setBounds(83, 337, 204, 37);
 		button.setText("Export Excel");
@@ -345,8 +348,115 @@ public class TeenaviToExcelV2SiteMap {
 			}
 		});
 		
-		btnCheckNewCach.setText("Check New cach 2 ");
-		btnCheckNewCach.setBounds(83, 402, 204, 37);
+		btnCheckNewCach.setText("Check New By URL ");
+		btnCheckNewCach.setBounds(154, 269, 204, 37);
+		
+		button_2 = new Button(grrr, SWT.NONE);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				JFileChooser openFile = new JFileChooser();
+				int returnVal = openFile.showOpenDialog(jFrame);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getCurrentDirectory();
+					java.io.File fileDir = openFile.getSelectedFile();
+
+					csvFile = fileDir.getPath();
+					// String extent=file.get
+					try {
+						FileReader fileReader = new FileReader(csvFile);
+						BufferedReader br = new BufferedReader(fileReader);
+						String stringRead = br.readLine();
+						int i = 0;
+						String titleFromFile = "";
+						String[] strArray = {};
+						while (stringRead != null) {
+							boolean flag = true;
+
+							strArray = stringRead.split(",");
+							if (strArray.length > 0)
+
+								titleFromFile = strArray[1].toString().trim();
+
+							if (!titleFromFile.isEmpty()) {
+
+								dataListTitleOrigin.add(titleFromFile);
+							}
+							// read the next line
+							stringRead = br.readLine();
+						}
+						br.close();
+					} catch (IOException ex) {
+
+					}
+				} else {
+					System.out.println("File access cancelled by user.");
+				}
+				
+			}
+		});
+		button_2.setText("File CSV Get Title");
+		button_2.setImage(SWTResourceManager.getImage(TeenaviToExcelV2SiteMap.class, "/png/001-folder.png"));
+		button_2.setBounds(377, 88, 123, 30);
+		
+		button_4 = new Button(grrr, SWT.NONE);
+		button_4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				listObjLink = new ArrayList<String>();
+				System.setProperty("http.agent",
+						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
+				if (StringUtil.isBlank(siteMaplink)) {
+					System.out.println("NO link");
+				} else 
+				{
+					listLinkTitle = new ArrayList<LinkTitle>();
+					StringBuffer content;
+					String str;
+					Document doc;
+					try {
+						System.setProperty("http.agent",
+								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
+						Document buyProduct;
+						String linksitemap="";
+						String fileName = siteMapSearch + "_" + siteMapStart + "_" + siteMapEnd;
+//						fileName = siteMaplink.substring(20, siteMaplink.indexOf(".xml"));
+						String siteMaplinkTemp = "";
+						for (int j= siteMapStart; j< siteMapEnd + 1; j++) {
+							siteMaplinkTemp = siteMaplink + j + ".xml";
+							System.out.println("Find: " + siteMaplinkTemp);
+							content = Commond.getContentURL(siteMaplinkTemp);
+							str = content.toString();
+							doc = Jsoup.parse(str, "", Parser.xmlParser());
+							for (int i=0;i< doc.select("loc").size();i++) {
+								linksitemap = doc.select("loc").get(i).text();
+							    if(linksitemap.contains(siteMapSearch)) {
+									System.out.println(linksitemap);
+									if (isValid(linksitemap) != 404) {
+					    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+							    		String title = buyProduct.select("div.product-info h1").get(0).text();
+							    		if(!dataListTitleOrigin.contains(title)){
+								    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
+								    		listLinkTitle.add(linkTitle) ;
+							    		}
+									}
+							    }
+							}
+						}
+						
+						Commond.saveLinkTitleCSV(listLinkTitle, "LinksTeenavi" + fileName);
+						System.out.println("Save CSV successfully:" + "LinksTeenavi" + fileName);
+						labMessage.setText("Save list data successfully");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		button_4.setText("Check New By Title ");
+		button_4.setBounds(377, 130, 204, 37);
 		
 				button.addSelectionListener(new SelectionAdapter() {
 		
