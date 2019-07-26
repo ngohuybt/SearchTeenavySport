@@ -94,10 +94,11 @@ public class TeenaviToExcelV2SiteMap {
 	public static void main(String[] args) {
 		try {
 			TeenaviToExcelV2SiteMap window = new TeenaviToExcelV2SiteMap();
-			TeenaviToExcelV2SiteMap.siteMaplink = getSiteMaplink();
-			TeenaviToExcelV2SiteMap.siteMapStart = 5;
-			TeenaviToExcelV2SiteMap.siteMapEnd = 35;
-			TeenaviToExcelV2SiteMap.siteMapSearch = "halloween";
+			TeenaviToExcelV2SiteMap.siteMaplink = "https://teenavi.com/product-sitemap";
+			TeenaviToExcelV2SiteMap.siteMapStart = 34;
+			TeenaviToExcelV2SiteMap.siteMapEnd = 34;
+//			TeenaviToExcelV2SiteMap.siteMapSearch = "halloween";
+			TeenaviToExcelV2SiteMap.siteMapSearch = "https";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
