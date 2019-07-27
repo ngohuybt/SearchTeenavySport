@@ -78,7 +78,8 @@ public class MofeeshirtToExcel {
 	ArrayList<LinkTitle> listLinkTitle = new ArrayList<LinkTitle>();
 	private Button btnCheckNew;
 	private Button btnCheckNewCach;
-	private static Map<String, String> mapMenuId = new HashMap<String, String>();
+//	private static Map<String, String> mapMenuId = new HashMap<String, String>();
+	private static String siteMaplink = "";
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
 	 * 
@@ -87,7 +88,10 @@ public class MofeeshirtToExcel {
 	public static void main(String[] args) {
 		try {
 			MofeeshirtToExcel window = new MofeeshirtToExcel();
-			window.mapMenuId = getMapMenuId();
+//			MofeeshirtToExcel.mapMenuId = getMapMenuId();
+			MofeeshirtToExcel.siteMaplink = "https://mofeeshirt.com/product-sitemap2.xml";
+//			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap19.xml";
+//			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap11.xml";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,7 +118,7 @@ public class MofeeshirtToExcel {
 		}
     } 
 	
-	public static Map<String, String> getMapMenuId() {
+//	public static Map<String, String> getMapMenuId() {
 //		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
 //		mapMenuId.put("FATHERS", "li#menu-item-78");
 //		mapMenuId.put("MOTHERS", "li#menu-item-69428");
@@ -126,10 +130,10 @@ public class MofeeshirtToExcel {
 		
 //		mapMenuId.put("GAMES", "li#menu-item-75");
 //		mapMenuId.put("NURSE", "li#menu-item-54842");
-		mapMenuId.put("UNICORN", "li#menu-item-54843");
+//		mapMenuId.put("UNICORN", "li#menu-item-54843");
 //		mapMenuId.put("TRUMP", "li#menu-item-54844");
-		return mapMenuId;
-	}
+//		return mapMenuId;
+//	}
 
 	/**
 	 * Open the window.
@@ -251,7 +255,6 @@ public class MofeeshirtToExcel {
 			public void widgetSelected(SelectionEvent e) {
 
 				listLinkTitle = new ArrayList<LinkTitle>();
-				String link = "https://mofeeshirt.com/product-sitemap2.xml";
 				StringBuffer content;
 				String str;
 				Document doc;
@@ -261,10 +264,11 @@ public class MofeeshirtToExcel {
 					Document buyProduct;
 					String linksitemap="";
 					String fileName = "Sitemap";
-					System.out.println("Find: " + link);
-					content = Commond.getContentURL(link);
+					System.out.println("Find: " + siteMaplink);
+					content = Commond.getContentURL(siteMaplink);
 					str = content.toString();
 					doc = Jsoup.parse(str, "", Parser.xmlParser());
+//					for (int i=0;i< 5;i++) {
 					for (int i=0;i< doc.select("loc").size();i++) {
 						linksitemap = doc.select("loc").get(i).text();
 						System.out.println(linksitemap);
@@ -294,10 +298,9 @@ public class MofeeshirtToExcel {
 			public void widgetSelected(SelectionEvent e) {
 
 				listObjLink = new ArrayList<String>();
-				String link = "https://mofeeshirt.com/product-sitemap2.xml";
 				System.setProperty("http.agent",
 						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
-				if (StringUtil.isBlank(link)) {
+				if (StringUtil.isBlank(siteMaplink)) {
 					System.out.println("NO link");
 				} else 
 				{
@@ -311,8 +314,8 @@ public class MofeeshirtToExcel {
 						Document buyProduct;
 						String linksitemap="";
 						String fileName = "Sitemap";
-						System.out.println("Find: " + link);
-						content = Commond.getContentURL(link);
+						System.out.println("Find: " + siteMaplink);
+						content = Commond.getContentURL(siteMaplink);
 						str = content.toString();
 						doc = Jsoup.parse(str, "", Parser.xmlParser());
 						for (int i=0;i< doc.select("loc").size();i++) {
