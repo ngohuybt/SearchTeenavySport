@@ -78,7 +78,6 @@ public class MofeeshirtToExcel {
 	ArrayList<LinkTitle> listLinkTitle = new ArrayList<LinkTitle>();
 	private Button btnCheckNew;
 	private Button btnCheckNewCach;
-//	private static Map<String, String> mapMenuId = new HashMap<String, String>();
 	private static String siteMaplink = "";
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
@@ -88,9 +87,8 @@ public class MofeeshirtToExcel {
 	public static void main(String[] args) {
 		try {
 			MofeeshirtToExcel window = new MofeeshirtToExcel();
-//			MofeeshirtToExcel.mapMenuId = getMapMenuId();
-			MofeeshirtToExcel.siteMaplink = "https://mofeeshirt.com/product-sitemap2.xml";
-//			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap19.xml";
+//			MofeeshirtToExcel.siteMaplink = "https://mofeeshirt.com/product-sitemap2.xml";
+			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap18.xml";
 //			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap11.xml";
 			window.open();
 		} catch (Exception e) {
@@ -118,23 +116,6 @@ public class MofeeshirtToExcel {
 		}
     } 
 	
-//	public static Map<String, String> getMapMenuId() {
-//		mapMenuId.put("BIRTHDAY", "li#menu-item-69408");
-//		mapMenuId.put("FATHERS", "li#menu-item-78");
-//		mapMenuId.put("MOTHERS", "li#menu-item-69428");
-		
-//		mapMenuId.put("HALLOWEEN", "li#menu-item-79");
-//		mapMenuId.put("MOVIE", "li#menu-item-54840");
-//		mapMenuId.put("CHRISTMAS", "li#menu-item-80");
-//		mapMenuId.put("DOG", "li#menu-item-76");
-		
-//		mapMenuId.put("GAMES", "li#menu-item-75");
-//		mapMenuId.put("NURSE", "li#menu-item-54842");
-//		mapMenuId.put("UNICORN", "li#menu-item-54843");
-//		mapMenuId.put("TRUMP", "li#menu-item-54844");
-//		return mapMenuId;
-//	}
-
 	/**
 	 * Open the window.
 	 */
@@ -263,7 +244,7 @@ public class MofeeshirtToExcel {
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 					Document buyProduct;
 					String linksitemap="";
-					String fileName = "Sitemap";
+					String fileName = "Links" + siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17) + "Sitemap";
 					System.out.println("Find: " + siteMaplink);
 					content = Commond.getContentURL(siteMaplink);
 					str = content.toString();
@@ -280,8 +261,8 @@ public class MofeeshirtToExcel {
 				    		listLinkTitle.add(linkTitle) ;
 						}
 					}
-					Commond.saveLinkTitleCSV(listLinkTitle, "LinksMofeeshirt" + fileName);
-					System.out.println("Save CSV successfully:" + "LinksMofeeshirt" + fileName);
+					Commond.saveLinkTitleCSV(listLinkTitle, fileName);
+					System.out.println("Save CSV successfully:" + fileName);
 					labMessage.setText("Save list data successfully");
 				} catch (IOException e1) {
 					e1.printStackTrace();
