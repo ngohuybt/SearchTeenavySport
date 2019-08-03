@@ -848,8 +848,11 @@ public class MofeeshirtExportData {
 					if (link.contains("https://kingtees.us")) {
 						listObjLink = contentChildGetKingteeshops(link, "");
 					}
-					if (link.contains("https://moteefe.com")) {
+					if (link.contains("https://moteefe.com") || link.contains("https://www.moteefe.com")) {
 						listObjLink = contentChildGetTshirtat(link, "");
+					}
+					if (link.contains("https://checkout.t-shirtat.com")) {
+						listObjLink = contentChildGetTShirtat2(link, "");
 					}
 					
 					for (Template template : listObjLink) {
@@ -1703,6 +1706,256 @@ public class MofeeshirtExportData {
 		return listObj;
 	}
 	
+	public ArrayList<Template> contentChildGetTShirtat2(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			try {
+				double price = 0;
+				double pricetmp = 0;
+				String title = "";
+				String[] arrLink = linkHref.split("___");
+				if (arrLink.length >= 2) {
+					linkHref = arrLink[0];
+					if (!"XXX".equals(arrLink[0]))
+						title = arrLink[1];
+
+				} else {
+					linkHref = arrLink[0];
+				}
+
+				Document docPage;
+				String baseURL = "https://checkout.t-shirtat.com";
+				try {
+					if (linkHref.contains("?")) {
+						String array[] = linkHref.split("\\?");
+						if (array.length > 0) {
+							if (!array[0].contains("?locale=en&user_currency=USD"))
+								linkHref = array[0] + "?locale=en&user_currency=USD";
+							else
+								linkHref = array[0];
+						}
+					} else {
+						if (!linkHref.contains("?locale=en&user_currency=USD"))
+							linkHref = linkHref + "?locale=en&user_currency=USD";
+					}
+
+					docPage = Jsoup.connect(linkHref).timeout(50 * 1000)
+							.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+							.referrer("http://www.google.com").ignoreContentType(true).get();
+					Document documentChild = Jsoup.parse(docPage.toString());
+					
+					
+//					String menuLink = documentChild.select("select#shirtTypes").select("option").get(0).attr("value") ;
+//					String menuLink2 = documentChild.select("select#shirtTypes").select("option").get(9).text() ;
+//					String productLink4 = documentChild.select("label[for=LightPink]").first().attr("onclick") ;
+//					String productLink5 = productLink4.substring(productLink4.indexOf("='") + 2, productLink4.length() -2);
+//					String productLink6 = documentChild.select("div.btn-group label input").first().attr("title") ;
+//					String productLink7 = documentChild.select("label[for=" + productLink6 + "]").first().attr("onclick") ;
+
+					String imageMoteefeNo = "";
+					System.out.println("Title  : " + title);
+					title = Commond.replaceString(arrayStringShirt, title, " ");
+					String colorMoteefe = "";
+					String colorMoteefeTemp = "";
+					String styleMoteefeNo = "";
+					String styleMoteefeNoTemp = "";
+					String sku = "";
+					String styleForURL = "";
+					String colorForURL = "";
+					Template objTemplate = new Template();
+					
+					Elements shirtTypes;
+					String linkStyle = "";
+					String linkColor = "";
+					String linkShirt = "";
+					for (String selectedStyle : arrayStyle) {
+						// Kiem hinh va gia
+						styleMoteefeNo = hashMapMoteefeeStyle.get(selectedStyle);
+						shirtTypes = documentChild.select("select#shirtTypes").select("option");
+						if ("Men's T-Shirt".equals(styleMoteefeNo)) {
+							for(Element element : shirtTypes) {
+								if( element.text().contains("Unisex $22.99")) {
+									linkStyle = element.attr("value") ;
+									linkShirt = baseURL + linkStyle;
+								}
+							}
+						}
+						if ("Women's T-Shirt".equals(styleMoteefeNo)) {
+							for(Element element : shirtTypes) {
+								if( element.text().contains("Classic Ladies Tee")) {
+									linkStyle = element.attr("value") ;
+									linkShirt = baseURL + linkStyle;
+								}
+							}
+						}
+						if ("Unisex Hoodie".equals(styleMoteefeNo)) {
+							for(Element element : shirtTypes) {
+								if( element.text().contains("Hoodie")) {
+									linkStyle = element.attr("value") ;
+									linkShirt = baseURL + linkStyle;
+								}
+							}
+						}
+						if ("Unisex Sweatshirt".equals(styleMoteefeNo)) {
+							for(Element element : shirtTypes) {
+								if( element.text().contains("Sweatshirt")) {
+									linkStyle = element.attr("value") ;
+									linkShirt = baseURL + linkStyle;
+								}
+							}
+						}
+						
+						Document docPageShirt = Jsoup.connect(linkShirt).timeout(50 * 1000)
+								.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+								.referrer("http://www.google.com").ignoreContentType(true).get();
+						Document documentShirtChild = Jsoup.parse(docPageShirt.toString());
+						String titleColor = "";
+						String linkColorTemp = "";
+						Elements shirtColors;
+						shirtColors = documentShirtChild.select("div.btn-group label input");
+						
+						Document docPageImage;
+						Document docPageImageChild;
+//						[Black, NavyBlue, Red, White]
+						for (String labelColor : arrayColor) {
+							if (!hashMapMoteefeeColor.get(labelColor).isEmpty()) {
+								
+								for(Element element : shirtColors) {
+									titleColor = element.attr("title");
+									
+									if("Black".equals(titleColor) && "Black".equals(labelColor)) {
+										linkColorTemp = documentShirtChild.select("label[for=" + titleColor + "]").first().attr("onclick") ;
+										linkColor = linkColorTemp.substring(linkColorTemp.indexOf("='") + 2, linkColorTemp.length() -2);
+										linkShirt = baseURL + "/" + linkColor;
+										docPageImage = Jsoup.connect(linkShirt).timeout(50 * 1000)
+												.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+												.referrer("http://www.google.com").ignoreContentType(true).get();
+										docPageImageChild = Jsoup.parse(docPageImage.toString());
+										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
+										colorMoteefe = labelColor;
+									}
+									
+									if("NavyBlue".equals(titleColor) && "NavyBlue".equals(labelColor)) {
+										linkColorTemp = documentShirtChild.select("label[for=" + titleColor + "]").first().attr("onclick") ;
+										linkColor = linkColorTemp.substring(linkColorTemp.indexOf("='") + 2, linkColorTemp.length() -2);
+										linkShirt = baseURL + "/" + linkColor;
+										docPageImage = Jsoup.connect(linkShirt).timeout(50 * 1000)
+												.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+												.referrer("http://www.google.com").ignoreContentType(true).get();
+										docPageImageChild = Jsoup.parse(docPageImage.toString());
+										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
+										colorMoteefe = labelColor;
+									}
+									
+									if("Red".equals(titleColor) && "Red".equals(labelColor)) {
+										linkColorTemp = documentShirtChild.select("label[for=" + titleColor + "]").first().attr("onclick") ;
+										linkColor = linkColorTemp.substring(linkColorTemp.indexOf("='") + 2, linkColorTemp.length() -2);
+										linkShirt = baseURL + "/" + linkColor;
+										docPageImage = Jsoup.connect(linkShirt).timeout(50 * 1000)
+												.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+												.referrer("http://www.google.com").ignoreContentType(true).get();
+										docPageImageChild = Jsoup.parse(docPageImage.toString());
+										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
+										colorMoteefe = labelColor;
+									}
+									
+									if("White".equals(titleColor) && "White".equals(labelColor)) {
+										linkColorTemp = documentShirtChild.select("label[for=" + titleColor + "]").first().attr("onclick") ;
+										linkColor = linkColorTemp.substring(linkColorTemp.indexOf("='") + 2, linkColorTemp.length() -2);
+										linkShirt = baseURL + "/" + linkColor;
+										docPageImage = Jsoup.connect(linkShirt).timeout(50 * 1000)
+												.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+												.referrer("http://www.google.com").ignoreContentType(true).get();
+										docPageImageChild = Jsoup.parse(docPageImage.toString());
+										imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(10).attr("content");
+										if(imageMoteefeNo.contains("http://checkout")) {
+											imageMoteefeNo = docPageImageChild.getElementsByTag("meta").get(11).attr("content");
+										}
+										colorMoteefe = labelColor;
+									}
+									if(!"".equals(colorMoteefe)) {
+										if ("Men's T-Shirt".equals(styleMoteefeNo)) {
+											pricetmp = Float.valueOf(txtTshirtPrice.getText());
+											price = (double) Math.round(pricetmp * 100) / 100;
+										}
+										if ("Women's T-Shirt".equals(styleMoteefeNo)) {
+											pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
+											price = (double) Math.round(pricetmp * 100) / 100;
+										}
+										if ("Unisex Hoodie".equals(styleMoteefeNo)) {
+											pricetmp = Float.valueOf(txtHoddiesPrice.getText());
+											price = (double) Math.round(pricetmp * 100) / 100;
+										}
+										if ("Unisex Sweatshirt".equals(styleMoteefeNo)) {
+											pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
+											price = (double) Math.round(pricetmp * 100) / 100;
+										}
+
+										String styleTemp = "";
+										styleTemp = hashStyleMap.get(styleMoteefeNo);
+										for (String size : arraySize) {
+											objTemplate = new Template();
+											// Set titel for data Excel
+											objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
+											objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
+											objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
+
+											objTemplate.setVendor("Moteefe");
+											objTemplate.setImagesrc(imageMoteefeNo.toString());
+											objTemplate.setVariantImage(imageMoteefeNo.toString());
+											objTemplate.setOption1Value(size);
+											objTemplate.setOption2Value(labelColor);
+											objTemplate.setBodyHTML(title);
+											objTemplate.setOption3Value(styleMoteefeNo);
+											objTemplate.setVariantSKU(sku);
+											objTemplate.setImageAltText(title);
+											objTemplate.setSEODescription(title);
+											objTemplate.setSEOTitle(title);
+											objTemplate.setSEODescription(title);
+											objTemplate.setTags("Moteefe");
+											objTemplate.setSourceURL(linkHref);
+											if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
+													|| size.equals("XXXXXL")) {
+												objTemplate.setVariantprice(String.valueOf(price + 3));
+												if (size.equals("XXL"))
+													objTemplate.setOption1Value("XXL");
+												if (size.equals("XXXL"))
+													objTemplate.setOption1Value("XXXL");
+												if (size.equals("XXXXL"))
+													objTemplate.setOption1Value("XXXXL");
+												if (size.equals("XXXXXL"))
+													objTemplate.setOption1Value("XXXXXL");
+											} else {
+												objTemplate.setVariantprice(String.valueOf(price));
+											}
+											listObj.add(objTemplate);
+										}
+										colorMoteefe = "";
+									}
+								}
+							}
+						}
+					}
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			} catch (Exception e) {
+			}
+		}
+		return listObj;
+	}
+	
 	public ArrayList<Template> contentChildGetTshirtat(String linkHref, String selectCatagories) {
 		ArrayList<Template> listObj = new ArrayList<Template>();
 		String[] arrayLink = new String[] {};
@@ -1810,8 +2063,11 @@ public class MofeeshirtExportData {
 						Gson gson = new Gson();
 						// convert your list to json
 //						String jsonCartList = gson.toJson(rootObject);
-						rootObject = mapper.readValue(data, new TypeReference<RootObject>() {
-						});
+						if(scriptElement.size() > 0) {
+							rootObject = mapper.readValue(data, new TypeReference<RootObject>() {
+							});
+						}
+
 						if (StringUtil.isBlank(title))
 							title = rootObject.getState().getPage().getCampaign().getName();
 

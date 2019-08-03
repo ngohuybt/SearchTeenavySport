@@ -88,8 +88,8 @@ public class MofeeshirtToExcel {
 		try {
 			MofeeshirtToExcel window = new MofeeshirtToExcel();
 //			MofeeshirtToExcel.siteMaplink = "https://mofeeshirt.com/product-sitemap2.xml";
-			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap18.xml";
-//			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap11.xml";
+//			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap19.xml";
+			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap10.xml";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -294,7 +294,8 @@ public class MofeeshirtToExcel {
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 						Document buyProduct;
 						String linksitemap="";
-						String fileName = "Sitemap";
+//						String fileName = "Sitemap";
+						String fileName = "Links" + siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17) + "Sitemap";
 						System.out.println("Find: " + siteMaplink);
 						content = Commond.getContentURL(siteMaplink);
 						str = content.toString();
@@ -314,8 +315,8 @@ public class MofeeshirtToExcel {
 								}
 							}
 						}
-						Commond.saveLinkTitleCSV(listLinkTitle, "LinksMofeeshirt" + fileName);
-						System.out.println("Save CSV successfully:" + "LinksMofeeshirt" + fileName);
+						Commond.saveLinkTitleCSV(listLinkTitle, fileName);
+						System.out.println("Save CSV successfully:" + fileName);
 						labMessage.setText("Save list data successfully");
 					} catch (IOException e1) {
 						e1.printStackTrace();

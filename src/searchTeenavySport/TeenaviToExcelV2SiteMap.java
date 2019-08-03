@@ -95,8 +95,8 @@ public class TeenaviToExcelV2SiteMap {
 		try {
 			TeenaviToExcelV2SiteMap window = new TeenaviToExcelV2SiteMap();
 			TeenaviToExcelV2SiteMap.siteMaplink = "https://teenavi.com/product-sitemap";
-			TeenaviToExcelV2SiteMap.siteMapStart = 34;
-			TeenaviToExcelV2SiteMap.siteMapEnd = 34;
+			TeenaviToExcelV2SiteMap.siteMapStart = 36;
+			TeenaviToExcelV2SiteMap.siteMapEnd = 36;
 //			TeenaviToExcelV2SiteMap.siteMapSearch = "halloween";
 			TeenaviToExcelV2SiteMap.siteMapSearch = "https";
 			window.open();
@@ -270,7 +270,7 @@ public class TeenaviToExcelV2SiteMap {
 						doc = Jsoup.parse(str, "", Parser.xmlParser());
 						for (int i=0;i< doc.select("loc").size();i++) {
 							linksitemap = doc.select("loc").get(i).text();
-						    if(linksitemap.contains(siteMapSearch)) {
+//						    if(linksitemap.contains(siteMapSearch)) {
 								System.out.println(linksitemap);
 								if (isValid(linksitemap) != 404) {
 				    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
@@ -278,7 +278,7 @@ public class TeenaviToExcelV2SiteMap {
 						    		LinkTitle linkTitle = new LinkTitle(linksitemap, title);
 						    		listLinkTitle.add(linkTitle) ;
 								}
-						    }
+//						    }
 						}
 					}
 					
