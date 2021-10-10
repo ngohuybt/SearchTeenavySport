@@ -91,12 +91,13 @@ public class MofeeshirtToExcelSearch {
 		try {
 			MofeeshirtToExcelSearch window = new MofeeshirtToExcelSearch();
 //			MofeeshirtToExcelSearch.siteMaplink = "https://mofeeshirt.com/product-sitemap";
-//			MofeeshirtToExcelSearch.siteMaplink = "https://kingteeshops.com/product-sitemap";
-			MofeeshirtToExcelSearch.siteMaplink = "https://t-shirtat.com/product-sitemap";
+			MofeeshirtToExcelSearch.siteMaplink = "https://kingteeshops.com/product-sitemap";//55
+//			MofeeshirtToExcelSearch.siteMaplink = "https://t-shirtat.com/product-sitemap";//15
 			
-			MofeeshirtToExcelSearch.siteMapStart = 1;
-			MofeeshirtToExcelSearch.siteMapEnd = 9;
-			MofeeshirtToExcelSearch.siteMapSearch = "halloween";
+			MofeeshirtToExcelSearch.siteMapStart = 55;
+			MofeeshirtToExcelSearch.siteMapEnd = 55;
+			MofeeshirtToExcelSearch.siteMapSearch = "kingteeshops";
+//			MofeeshirtToExcelSearch.siteMapSearch = "t-shirtat.com";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,15 +262,29 @@ public class MofeeshirtToExcelSearch {
 						str = content.toString();
 						doc = Jsoup.parse(str, "", Parser.xmlParser());
 						for (int i=0;i< doc.select("loc").size();i++) {
+//							for (int i=400;i< doc.select("loc").size();i++) {
 							linksitemap = doc.select("loc").get(i).text();
 							if(linksitemap.contains(siteMapSearch)) {
 								System.out.println(linksitemap);
 								if (isValid(linksitemap) != 404) {
-				    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-						    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
-						    		String title = buyProduct.select("div.product-info h1").get(0).text();
-						    		LinkTitle linkTitle = new LinkTitle(buyProductLink, title);
-						    		listLinkTitle.add(linkTitle) ;
+									StringBuffer content_t_shirtat;
+									String str_t_shirtat;
+									Document doc_t_shirtat;
+									if(siteMapSearch.equals("t-shirtat.com")) {
+										content_t_shirtat = Commond.getContentURL(linksitemap);
+										str_t_shirtat = content_t_shirtat.toString();
+										doc_t_shirtat = Jsoup.parse(str_t_shirtat, "", Parser.xmlParser());
+										String buyProductLink1 = doc_t_shirtat.select("form.cart").attr("action") ;
+							    		String title = doc_t_shirtat.select("div.product-info h1").get(0).text();
+							    		LinkTitle linkTitle = new LinkTitle(buyProductLink1, title);
+							    		listLinkTitle.add(linkTitle) ;
+									}else {
+					    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+							    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+							    		String title = buyProduct.select("div.product-info h1").get(0).text();
+							    		LinkTitle linkTitle = new LinkTitle(buyProductLink, title);
+							    		listLinkTitle.add(linkTitle) ;
+									}
 								}
 							}
 						}

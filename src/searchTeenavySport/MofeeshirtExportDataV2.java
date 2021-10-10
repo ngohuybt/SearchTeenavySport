@@ -63,7 +63,7 @@ import moteefeObj.RootObjectCampfirepark;
 import moteefeObj.TemplatePestra;
 import moteefeObj.VariantCampfirepark;
 
-public class MofeeshirtExportData {
+public class MofeeshirtExportDataV2 {
 
 	protected Shell shlExportExcel;
 	final JFrame jFrame = new JFrame("Simple hello Example");
@@ -81,7 +81,7 @@ public class MofeeshirtExportData {
 	private String sellerID = "";
 	private String nameStore = "";
 	private String hostName = "";
-	private static final Log log = LogFactory.getLog(MofeeshirtExportData.class);
+	private static final Log log = LogFactory.getLog(MofeeshirtExportDataV2.class);
 	private Text txtLink;
 	int[] styles = { SWT.SINGLE, SWT.MULTI };
 	private Display display = new Display();
@@ -104,6 +104,8 @@ public class MofeeshirtExportData {
 	private Text txtWomenTshirtPrice;
 	private Text txtSweatshirtPrice;
 	private Text txtHoddiesPrice;
+	private String selectCatagories = "Music";//17:Uncategorized,Trend Shirt,Trend T-shirt,Family , 18: Movie,Music,Holidays
+	
 
 	/**
 	 * Launch the application. Sử dụng thread + Hàm con
@@ -112,7 +114,7 @@ public class MofeeshirtExportData {
 	 */
 	public static void main(String[] args) {
 		try {
-			MofeeshirtExportData window = new MofeeshirtExportData();
+			MofeeshirtExportDataV2 window = new MofeeshirtExportDataV2();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,12 +170,12 @@ public class MofeeshirtExportData {
 		txtLink.setBounds(176, 49, 267, 26);
 
 		Button btnAdd = new Button(group_1, SWT.NONE);
-		btnAdd.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/add.png"));
+		btnAdd.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/add.png"));
 
 		btnAdd.setBounds(33, 308, 53, 26);
 
 		Button btnSave = new Button(group_1, SWT.NONE);
-		btnSave.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/003-save.png"));
+		btnSave.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/003-save.png"));
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -215,7 +217,7 @@ public class MofeeshirtExportData {
 		});
 		btnSave.setBounds(151, 308, 53, 26);
 		Button btnNewButton_2 = new Button(group_1, SWT.NONE);
-		btnNewButton_2.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/001-folder.png"));
+		btnNewButton_2.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/001-folder.png"));
 		btnNewButton_2.setBounds(212, 308, 53, 26);
 		ListViewer listViewer = new ListViewer(group_1, SWT.BORDER | SWT.V_SCROLL);
 		org.eclipse.swt.widgets.List listDataView = listViewer.getList();
@@ -232,7 +234,7 @@ public class MofeeshirtExportData {
 		lbStatus.setBounds(54, 23, 396, 20);
 
 		Button btnDelete = new Button(group_1, SWT.NONE);
-		btnDelete.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/005-minus.png"));
+		btnDelete.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/005-minus.png"));
 		btnDelete.setBounds(92, 308, 53, 26);
 
 		textNameFileOut = new Text(group_1, SWT.BORDER);
@@ -606,7 +608,7 @@ public class MofeeshirtExportData {
 		arrayStyle.add(ckSweatshirtUnisex.getText());
 		Button btnExport = new Button(group_1, SWT.NONE);
 
-		btnExport.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/006-export.png"));
+		btnExport.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/006-export.png"));
 		btnExport.setBounds(631, 308, 111, 26);
 
 		Label lblNewLabel = new Label(group_1, SWT.NONE);
@@ -615,7 +617,6 @@ public class MofeeshirtExportData {
 		lblNewLabel.setText("28-03-2019");
 
 		txtStoreName = new Text(group_1, SWT.BORDER);
-		txtStoreName.setText("***");
 		txtStoreName.setBounds(631, 81, 111, 26);
 
 		CLabel label_5 = new CLabel(group_1, SWT.NONE);
@@ -673,7 +674,7 @@ public class MofeeshirtExportData {
 				listViewer.getList().removeAll();
 			}
 		});
-		button.setImage(SWTResourceManager.getImage(MofeeshirtExportData.class, "/png/delete.png"));
+		button.setImage(SWTResourceManager.getImage(MofeeshirtExportDataV2.class, "/png/delete.png"));
 		button.setBounds(271, 308, 53, 26);
 
 		ckbGreen = new Button(group_1, SWT.CHECK);
@@ -697,7 +698,7 @@ public class MofeeshirtExportData {
 		label_11.setBounds(81, 247, 70, 20);
 		
 		txtTshirtPrice = new Text(group_1, SWT.BORDER);
-		txtTshirtPrice.setText("19.95");
+		txtTshirtPrice.setText("18.95");
 		txtTshirtPrice.setBounds(171, 241, 49, 26);
 		
 		Label label_12 = new Label(group_1, SWT.NONE);
@@ -774,40 +775,40 @@ public class MofeeshirtExportData {
 				labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 				labMessage.setText("Running...........");
 				nameFileOutPut = textNameFileOut.getText();
-				hashMapMoteefeeStyle.put("Classic Men's T-Shirt", "Men's T-Shirt");
-				hashMapMoteefeeStyle.put("Classic Women's T-Shirt", "Women's T-Shirt");
-				hashMapMoteefeeStyle.put("Unisex Sweatshirt", "Unisex Sweatshirt");
-				hashMapMoteefeeStyle.put("Unisex Hoodie", "Unisex Hoodie");
-				
-				hashMapMoteefeePrice.put("Classic Men's T-Shirt", "Men's T-Shirt");
-				hashMapMoteefeePrice.put("Classic Women's T-Shirt", "Women's T-Shirt");
-				hashMapMoteefeePrice.put("Unisex Sweatshirt", "Unisex Sweatshirt");
-				hashMapMoteefeePrice.put("Unisex Hoodie", "Unisex Hoodie");
-				
-				hashMapMoteefeeColor.put("Black", "black");
-				hashMapMoteefeeColor.put("NavyBlue", "navy blue");
-				hashMapMoteefeeColor.put("Green", "green");
-				hashMapMoteefeeColor.put("Red", "red");
-				hashMapMoteefeeColor.put("White", "white");
+//				hashMapMoteefeeStyle.put("Classic Men's T-Shirt", "Men's T-Shirt");
+//				hashMapMoteefeeStyle.put("Classic Women's T-Shirt", "Women's T-Shirt");
+//				hashMapMoteefeeStyle.put("Unisex Sweatshirt", "Unisex Sweatshirt");
+//				hashMapMoteefeeStyle.put("Unisex Hoodie", "Unisex Hoodie");
+//				
+//				hashMapMoteefeePrice.put("Classic Men's T-Shirt", "Men's T-Shirt");
+//				hashMapMoteefeePrice.put("Classic Women's T-Shirt", "Women's T-Shirt");
+//				hashMapMoteefeePrice.put("Unisex Sweatshirt", "Unisex Sweatshirt");
+//				hashMapMoteefeePrice.put("Unisex Hoodie", "Unisex Hoodie");
+//				
+//				hashMapMoteefeeColor.put("Black", "black");
+//				hashMapMoteefeeColor.put("NavyBlue", "navy blue");
+//				hashMapMoteefeeColor.put("Green", "green");
+//				hashMapMoteefeeColor.put("Red", "red");
+//				hashMapMoteefeeColor.put("White", "white");
+//
+//				hashMapMoteefeeColorHoddie.put("Black", "jet black");
+//				hashMapMoteefeeColorHoddie.put("NavyBlue", "oxford navy");
+//				hashMapMoteefeeColorHoddie.put("Green", "green");
+//				hashMapMoteefeeColorHoddie.put("Red", "red");
+//				hashMapMoteefeeColorHoddie.put("White", "white");
+//
+//				hashStyleMap.put("Men's T-Shirt", "Men-T-Shirt");
+//				hashStyleMap.put("Women's T-Shirt", "Women-T-Shirt");
+//				hashStyleMap.put("Unisex Sweatshirt", "Sweatshirt");
+//				hashStyleMap.put("Unisex Hoodie", "Hoodie");
 
-				hashMapMoteefeeColorHoddie.put("Black", "jet black");
-				hashMapMoteefeeColorHoddie.put("NavyBlue", "oxford navy");
-				hashMapMoteefeeColorHoddie.put("Green", "green");
-				hashMapMoteefeeColorHoddie.put("Red", "red");
-				hashMapMoteefeeColorHoddie.put("White", "white");
-
-				hashStyleMap.put("Men's T-Shirt", "Men-T-Shirt");
-				hashStyleMap.put("Women's T-Shirt", "Women-T-Shirt");
-				hashStyleMap.put("Unisex Sweatshirt", "Sweatshirt");
-				hashStyleMap.put("Unisex Hoodie", "Hoodie");
-
-				arrayStringShirt.add("\\ shirt\\ ");
-				arrayStringShirt.add("\\ shirts\\ ");
-				arrayStringShirt.add("\\ tshirts\\ ");
-				arrayStringShirt.add("\\ tshirt\\ ");
-				arrayStringShirt.add("\\ t\\ shirts\\ ");
-				arrayStringShirt.add("\\ t\\ shirt\\ ");
-				nameStore = txtStoreName.getText();
+//				arrayStringShirt.add("\\ shirt\\ ");
+//				arrayStringShirt.add("\\ shirts\\ ");
+//				arrayStringShirt.add("\\ tshirts\\ ");
+//				arrayStringShirt.add("\\ tshirt\\ ");
+//				arrayStringShirt.add("\\ t\\ shirts\\ ");
+//				arrayStringShirt.add("\\ t\\ shirt\\ ");
+//				nameStore = txtStoreName.getText();
 				if (StringUtil.isBlank(nameFileOutPut)) {
 					labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 					labMessage.setText("NameFileOutPut is not null");
@@ -842,269 +843,59 @@ public class MofeeshirtExportData {
 				ArrayList<Template> listObjLink = new ArrayList<Template>();
 				for (String link : dataListView) {
 					listObjLink = new ArrayList<Template>();
+					//|| link.contains("https://cdn.kingteeshops.com") 
+					if (link.contains("https://cdn.geaflare.com/") || link.contains("https://kingteeshops.com/") || link.contains("https://cdn.kingteeshops.com") || link.contains("https://eternalshirt.com/") || link.contains("https://teeusa.live/") || link.contains("https://teefashion.live/") || link.contains("https://waterfalls.site")) {
+						listObjLink = contentChildGetKingteeshopsV2(link, selectCatagories);
+					}
+					if (link.contains("//purplestee.site/") || link.contains("//aladdinstee.site/") || link.contains("//twinklestee.com/")) {
+						listObjLink = contentChildGetProductOrder(link, selectCatagories);
+					}
+//					if (link.contains("https://waterfalls.site")) {
+//					listObjLink = contentChildGetProductOrder(link, selectCatagories);
+//					}
+//					if (link.contains("http://teefashion.live/")) {
+//					listObjLink = contentChildGetProductOrder2(link, selectCatagories);
+//					}
+//					if (link.contains("http://teeusa.live/")) {
+//					listObjLink = contentChildGetProductOrder3(link, selectCatagories);
+//					}
+//					if (link.contains("https://kingtee")) {
+//						listObjLink = contentChildGetKingteeshops(link, selectCatagories);
+//					}
+//					if (link.contains("https://checkout.kingtee")) {
+//						listObjLink = contentChildGetCheckOutKingteeshops(link, selectCatagories);
+//					}
+//					if (link.contains("https://cvctees.com")) {
+//						listObjLink = contentChildGetCvctees(link, selectCatagories);
+//					}
+//					if (link.contains("https://checkout.beautshirts.com")) {
+//						listObjLink = contentChildGetBeautShirts(link, selectCatagories);
+//					}
 					
-					if (link.contains("https://checkout.closettshirts.com")) {
-						listObjLink = contentChildMofeeshirt(link, "");
-					}
-					if (link.contains("https://kingtee")) {
-						listObjLink = contentChildGetKingteeshops(link, "");
-					}
-					if (link.contains("https://checkout.kingtee")) {
-						listObjLink = contentChildGetCheckOutKingteeshops(link, "");
-					}
-					if (link.contains("https://cvctees.com")) {
-						listObjLink = contentChildGetCvctees(link, "");
-					}
-					if (link.contains("https://moteefe.com") || link.contains("https://www.moteefe.com")) {
-						listObjLink = contentChildGetTshirtat(link, "");
-					}
-					if (link.contains("https://tshirtat-store.com")) {
-						listObjLink = contentChildGetTShirtat2(link, "");
-					}
+//					if (link.contains("https://checkout.closettshirts.com")) {
+//						listObjLink = contentChildMofeeshirt(link, "");
+//					}
+//					if (link.contains("https://moteefe.com") || link.contains("https://www.moteefe.com")) {
+//						listObjLink = contentChildGetTshirtat(link, "");
+//					}
+//					if (link.contains("https://tshirtat-store.com")) {
+//						listObjLink = contentChildGetTShirtat2(link, "");
+//					}
 					
 					for (Template template : listObjLink) {
 						listObjs.add(template);
 					}
 				}
 
-//				Collections.sort(listObjs, new Template.CompTitle());
-				Collections.sort(listObjs, new Template.CompBodyHTML());
+				Collections.sort(listObjs, new Template.CompTitle());
 				long end = Calendar.getInstance().getTimeInMillis();
 				log.debug("Executed Time: " + (end - begin));
 				// ExportExcel(listObj1, listHeader);
 				String nameFile = "";
-				nameFile = Commond.exportCSV(listObjs, nameFileOutPut);
+				nameFile = CommondV2.exportCSV(listObjs, nameFileOutPut);
 
-				try {
-					// Collections.sort(listTemplate, new Template.CompTitle());
-					String ProIDTemp = "";
-					try {
-						FileReader fileReader = new FileReader(nameFile);
-						BufferedReader br = new BufferedReader(fileReader);
-						String stringRead = "";
-						boolean flag = false;
-						String title = "";
-						String size="";
-						String sizeTemp="";
-						double price=0;
-						String productId = "";
-						TemplatePestra temp2 = new TemplatePestra();
-						TemplatePestra temp = new TemplatePestra();
-						listTemplatePestra.clear();
-						int indexRow = 0;
-						String titleTemp = "";
-						hashColumn1.clear();
-						hashColumn1 = new HashMap<String, String>();
-
-						while ((stringRead = br.readLine()) != null && !stringRead.isEmpty()) {
-							// List<String> line = Commond.parseLine(stringRead);
-							stringRead = stringRead.replace("\",\"", ";");
-							String[] fields = stringRead.split(";");
-
-							if (fields.length <= 0)
-								break;
-							if (indexRow == 0) {
-								for (int xxxx = 0; xxxx < fields.length; xxxx++) {
-									// stringRead=stringRead.replace("\"", "");
-									hashColumn1.put(
-											fields[xxxx].trim().replace("\"", "").toLowerCase().replace("\\\"", ""),
-											String.valueOf(xxxx));
-
-								}
-								indexRow++;
-								continue;
-							}
-
-							if (fields.length < 10) {
-								labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-								labMessage.setText("Check content Body(html) ");
-							}
-
-							temp = new TemplatePestra();
-
-							title = fields[Integer.valueOf(hashColumn1.get("Title".trim().toLowerCase()))].replace("\"",
-									"");
-							size = fields[Integer.valueOf(hashColumn1.get("Option1 Value".toLowerCase()))].replace("\"", ""); 
-							productId = fields[Integer.valueOf(hashColumn1.get("Variant SKU".trim().toLowerCase()))]
-									.replace("\"", "") + "111";
-							if (listTemplatePestra.size() >= 1) {
-								temp2 = new TemplatePestra();
-								temp2 = listTemplatePestra.get(listTemplatePestra.size() - 1);
-								titleTemp = temp2.getTitle();
-								sizeTemp= temp2.getSize() ;
-								if (!titleTemp.equals(title)) {
-										
-									listTemplatePestra.remove(listTemplatePestra.size() - 1);
-										
-									if (titleTemp.trim().toLowerCase().contains("hoodie")) {
-										temp.assignFullTemplate(temp2, txtHoddies.getText(), txtCategory.getText(),
-												hashColumn1);
- 										flag = true;
-									}
-									if (titleTemp.trim().toLowerCase().contains("sweatshirt")) {
-										temp.assignFullTemplate(temp2, txtSweatshirt.getText(), txtCategory.getText(),
-												hashColumn1);
- 
-										flag = true;
-									}
-									if (!flag) {
-										temp.assignFullTemplate(temp2, txtTshirt.getText(), txtCategory.getText(),
-												hashColumn1);
-
-									}
-									if (sizeTemp.equals("XXL") || size.equals("XXXL") || sizeTemp.equals("XXXXL") || sizeTemp.equals("XXXXXL")||
-											sizeTemp.equals("2XL") || size.equals("3XL") || sizeTemp.equals("4XL") || sizeTemp.equals("5XL")) {
-  									} 
-									listTemplatePestra.add(temp);
-									flag = false;
-									temp = new TemplatePestra();
-									ProIDTemp = productId;
-								}
-
-								if (title.trim().toLowerCase().contains("men-t-shirt")
-										|| title.trim().toLowerCase().contains("men t shirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "1", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtTshirtPrice.getText());
-
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("women-t-shirt")
-										|| title.trim().toLowerCase().contains("women t shirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "4", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtWomenTshirtPrice.getText());
-
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("hoodie")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "2", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtHoddiesPrice.getText());
-
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("sweatshirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "3", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtSweatshirtPrice.getText());
-
-									flag = true;
-								}
-								if (!flag) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "5", txtQuantity.getText(),
-											hashColumn1);
-
-								}
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL") || size.equals("XXXXXL")||
-										size.equals("2XL") || size.equals("3XL") || size.equals("4XL") || size.equals("5XL")) {
-									price=Double.valueOf(temp.getPrice())+3;
-									temp.setPrice(String.valueOf(price)); 
-								} 
-								listTemplatePestra.add(temp);
-								flag = false;
-								temp = new TemplatePestra();
-
-							} else {
-								ProIDTemp = productId;
-								if (title.trim().toLowerCase().contains("men-t-shirt")
-										|| title.trim().toLowerCase().contains("men t shirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "1", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtTshirtPrice.getText());
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("women-t-shirt")
-										|| title.trim().toLowerCase().contains("women t shirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "4", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtWomenTshirtPrice.getText());
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("hoodie")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "2", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtHoddiesPrice.getText());
-									flag = true;
-								}
-								if (title.trim().toLowerCase().contains("sweatshirt")) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "3", txtQuantity.getText(),
-											hashColumn1);
-									temp.setPrice(txtSweatshirtPrice.getText());
-									flag = true;
-								}
-								if (!flag) {
-									temp.assignTemplateNoTag(fields, title, ProIDTemp + "5", txtQuantity.getText(),
-											hashColumn1);
-
-								}
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL") || size.equals("XXXXXL")||
-										size.equals("2XL") || size.equals("3XL") || size.equals("4XL") || size.equals("5XL")) {
-									price=Double.valueOf(temp.getPrice())+3;
-									temp.setPrice(String.valueOf(price)); 
-								} 
-								listTemplatePestra.add(temp);
-								flag = false;
-								temp = new TemplatePestra();
-							}
-						}
-						// Chot dong cuoi cung
-						if (listTemplatePestra.size() > 1) {
-							temp2 = new TemplatePestra();
-							temp2 = listTemplatePestra.get(listTemplatePestra.size() - 1);
-
-							listTemplatePestra.remove(listTemplatePestra.size() - 1);
-							if (title.trim().toLowerCase().contains("men-t-shirt")
-									|| title.trim().toLowerCase().contains("men t shirt")) {
-								temp.assignFullTemplate(temp2, txtTshirt.getText(), txtCategory.getText(), hashColumn1);
-								temp.setPrice(txtTshirtPrice.getText());
-								flag = true;
-							}
-							if (title.trim().toLowerCase().contains("women-t-shirt")
-									|| title.trim().toLowerCase().contains("women t shirt")) {
-								temp.assignFullTemplate(temp2, txtTshirt.getText(), txtCategory.getText(), hashColumn1);
-								temp.setPrice(txtWomenTshirtPrice.getText());
-								flag = true;
-							}
-							if (title.trim().toLowerCase().contains("hoodie")) {
-								temp.assignFullTemplate(temp2, txtHoddies.getText(), txtCategory.getText(),
-										hashColumn1);
-								temp.setPrice(txtHoddiesPrice.getText());
-								flag = true;
-							}
-							if (title.trim().toLowerCase().contains("sweatshirt")) {
-								temp.assignFullTemplate(temp2, txtSweatshirt.getText(), txtCategory.getText(),
-										hashColumn1);
-								temp.setPrice(txtSweatshirtPrice.getText());
-								flag = true;
-							}
-							if (!flag) {
-								temp.assignFullTemplate(temp2, "", txtCategory.getText(), hashColumn1);
-
-							}
-							if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL") || size.equals("XXXXXL")||
-									size.equals("2XL") || size.equals("3XL") || size.equals("4XL") || size.equals("5XL")) {
-								price=Double.valueOf(temp.getPrice())+3;
-								temp.setPrice(String.valueOf(price)); 
-							} 
-							listTemplatePestra.add(temp);
-							flag = false;
-							temp = new TemplatePestra();
-						}
-
-						br.close();
-					} catch (IOException ex) {
-					}
-					// ExportExcel(listObj1, listHeader);
-					Commond.exportXLSTemplatePestra(listTemplatePestra);
-					Commond.exportCSVTemplateWP(listTemplatePestra);
-					// Commond.exportCSVTemplatePestra(listTemplatePestra);
-					labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
-					labMessage.setText("Export Success !!!");
-
-				} catch (Exception e1) {
-					// TODO: handle exception
-				}
+				labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+				labMessage.setText("Export Success !!!");
 				labMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 				labMessage.setText("Excel written successfully");
 				return;
@@ -1760,6 +1551,190 @@ public class MofeeshirtExportData {
 	}
 	*/
 	
+	public ArrayList<Template> contentChildGetKingteeshopsV2(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			String imageLink = "";
+			double price = 0;
+			String title = "";
+			String[] arrLink = linkHref.split("___");
+			if (arrLink.length >= 2) {
+				imageLink = arrLink[0];
+				title = arrLink[1];
+			}
+	
+			if(!imageLink.equals("")) {	
+				System.out.println("Title  : " + title);
+				Template objTemplate = new Template();
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(imageLink);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
+		}
+		return listObj;
+	}
+	
+	public ArrayList<Template> contentChildGetProductOrder3(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			String imageLink = "";
+			double price = 0;
+			String title = "";
+			String[] arrLink = linkHref.split("___");
+			if (arrLink.length >= 2) {
+				linkHref = arrLink[0];
+				if (!"XXX".equals(arrLink[0]))
+					title = arrLink[1];
+			} else {
+				linkHref = arrLink[0];
+			}
+			Document docPageMain;
+			try {
+				docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.referrer("http://www.google.com").ignoreContentType(true).get();
+				if(!docPageMain.getElementsByTag("title").get(0).text().contains("Error")) {
+					imageLink = docPageMain.select("div[class=woocommerce-product-gallery__image slide first]").select("a")
+							.attr("href");
+				}
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+
+			}		
+			if(!imageLink.equals("")) {	
+				System.out.println("Title  : " + title);
+				Template objTemplate = new Template();
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(linkHref);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
+		}
+		return listObj;
+	}
+	
+	public ArrayList<Template> contentChildGetProductOrder2(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			String imageLink = "";
+			double price = 0;
+			String title = "";
+			String[] arrLink = linkHref.split("___");
+			if (arrLink.length >= 2) {
+				linkHref = arrLink[0];
+				if (!"XXX".equals(arrLink[0]))
+					title = arrLink[1];
+			} else {
+				linkHref = arrLink[0];
+			}
+			Document docPageMain;
+			try {
+				docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.referrer("http://www.google.com").ignoreContentType(true).get();
+				if(!docPageMain.getElementsByTag("title").get(0).text().contains("Error")) {
+					imageLink = docPageMain.select("div[class=woocommerce-product-gallery__image slide first]").select("a")
+							.attr("href");
+				}
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+
+			}		
+			if(!imageLink.equals("")) {	
+				System.out.println("Title  : " + title);
+				Template objTemplate = new Template();
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(linkHref);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
+		}
+		return listObj;
+	}
+	
+	public ArrayList<Template> contentChildGetProductOrder(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			String imageLink = "";
+			double price = 0;
+			String title = "";
+			String[] arrLink = linkHref.split("___");
+			if (arrLink.length >= 2) {
+				linkHref = arrLink[0];
+				if (!"XXX".equals(arrLink[0]))
+					title = arrLink[1];
+			} else {
+				linkHref = arrLink[0];
+			}
+			Document docPageMain;
+			try {
+				docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.referrer("http://www.google.com").ignoreContentType(true).get();
+				if(!docPageMain.getElementsByTag("title").get(0).text().contains("Error")) {
+					imageLink = docPageMain.select("div[class=woocommerce-product-gallery__image slide first]").select("a")
+							.attr("href");
+				}
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+
+			}		
+			if(!imageLink.equals("")) {	
+				System.out.println("Title  : " + title);
+				Template objTemplate = new Template();
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(linkHref);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
+		}
+		return listObj;
+	}
+	
 	public ArrayList<Template> contentChildGetKingteeshops(String linkHref, String selectCatagories) {
 		ArrayList<Template> listObj = new ArrayList<Template>();
 		if (linkHref != "") {
@@ -1802,134 +1777,23 @@ public class MofeeshirtExportData {
 						linkHref = linkHref + "?locale=en&user_currency=USD";
 				}
 				System.out.println("Title  : " + title);
-				String styleMoteefeNo = "";
-				String sku = "";
 				Template objTemplate = new Template();
-				for (String selectedStyle : arrayStyle) {
-					styleMoteefeNo = hashMapMoteefeeStyle.get(selectedStyle);
-					for (String labelColor : arrayColor) {
-						String styleTemp = "";
-						styleTemp = hashStyleMap.get(styleMoteefeNo);
-						if ("Men-T-Shirt".equals(styleTemp) || "Women-T-Shirt".equals(styleTemp)) {
-							price = 19.95;
-						}
-						if ("Hoodie".equals(styleTemp)) {
-							price = 39.95;
-						}
-						if ("Sweatshirt".equals(styleTemp)) {
-							price = 29.95;
-						}
-						
-						double pricetmp = 0;
-						if ("Men-T-Shirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtTshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Women-T-Shirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Hoodie".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtHoddiesPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Sweatshirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						
-						for (String size : arraySize) {
-							objTemplate = new Template();
-							if (!(size.equals("XXXXL") || size.equals("XXXXXL"))) {
-								// Set titel for data Excel
-								objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-								objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-								objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-		
-								objTemplate.setVendor("Moteefe");
-								objTemplate.setImagesrc(imageLink);
-								objTemplate.setVariantImage(imageLink);
-								objTemplate.setOption1Value(size);
-								objTemplate.setOption2Value(labelColor);
-								objTemplate.setBodyHTML(title);
-								objTemplate.setOption3Value(styleMoteefeNo);
-								objTemplate.setVariantSKU(sku);
-								objTemplate.setImageAltText(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setSEOTitle(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setTags("Moteefe");
-								objTemplate.setSourceURL(linkHref);
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-										|| size.equals("XXXXXL")) {
-									
-									if(size.equals("XXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 4));
-									}else if (size.equals("XXXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 5));
-									}else {
-										objTemplate.setVariantprice(String.valueOf(price + 3));
-									}
-									if (size.equals("XXL"))
-										objTemplate.setOption1Value("XXL");
-									if (size.equals("XXXL"))
-										objTemplate.setOption1Value("XXXL");
-									if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXL");
-									if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXXL");
-								} else {
-									objTemplate.setVariantprice(String.valueOf(price));
-								}
-								listObj.add(objTemplate);
-							}
-							if ((size.equals("XXXXL") || size.equals("XXXXXL")) && !"Women-T-Shirt".equals(styleTemp)) {
-								// Set titel for data Excel
-								objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-								objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-								objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-		
-								objTemplate.setVendor("Moteefe");
-								objTemplate.setImagesrc(imageLink);
-								objTemplate.setVariantImage(imageLink);
-								objTemplate.setOption1Value(size);
-								objTemplate.setOption2Value(labelColor);
-								objTemplate.setBodyHTML(title);
-								objTemplate.setOption3Value(styleMoteefeNo);
-								objTemplate.setVariantSKU(sku);
-								objTemplate.setImageAltText(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setSEOTitle(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setTags("Moteefe");
-								objTemplate.setSourceURL(linkHref);
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-										|| size.equals("XXXXXL")) {
-									if(size.equals("XXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 4));
-									}else if (size.equals("XXXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 5));
-									}else {
-										objTemplate.setVariantprice(String.valueOf(price + 3));
-									}
-									if (size.equals("XXL"))
-										objTemplate.setOption1Value("XXL");
-									if (size.equals("XXXL"))
-										objTemplate.setOption1Value("XXXL");
-									if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXL");
-									if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXXL");
-								} else {
-									objTemplate.setVariantprice(String.valueOf(price));
-								}
-								listObj.add(objTemplate);
-							}
-						}
-					}
-				}
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(linkHref);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
 		}
-	}
 		return listObj;
 	}
 	
@@ -1975,133 +1839,23 @@ public class MofeeshirtExportData {
 						linkHref = linkHref + "?locale=en&user_currency=USD";
 				}
 				System.out.println("Title  : " + title);
-				String styleMoteefeNo = "";
-				String sku = "";
 				Template objTemplate = new Template();
-				for (String selectedStyle : arrayStyle) {
-					styleMoteefeNo = hashMapMoteefeeStyle.get(selectedStyle);
-					for (String labelColor : arrayColor) {
-						String styleTemp = "";
-						styleTemp = hashStyleMap.get(styleMoteefeNo);
-						if ("Men-T-Shirt".equals(styleTemp) || "Women-T-Shirt".equals(styleTemp)) {
-							price = 19.95;
-						}
-						if ("Hoodie".equals(styleTemp)) {
-							price = 39.95;
-						}
-						if ("Sweatshirt".equals(styleTemp)) {
-							price = 29.95;
-						}
-						
-						double pricetmp = 0;
-						if ("Men-T-Shirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtTshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Women-T-Shirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Hoodie".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtHoddiesPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						if ("Sweatshirt".equals(styleTemp)) {
-							pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
-							price = (double) Math.round(pricetmp * 100) / 100;
-						}
-						
-						for (String size : arraySize) {
-							objTemplate = new Template();
-							if (!(size.equals("XXXXL") || size.equals("XXXXXL"))) {
-								// Set titel for data Excel
-								objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-								objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-								objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-		
-								objTemplate.setVendor("Moteefe");
-								objTemplate.setImagesrc(imageLink);
-								objTemplate.setVariantImage(imageLink);
-								objTemplate.setOption1Value(size);
-								objTemplate.setOption2Value(labelColor);
-								objTemplate.setBodyHTML(title);
-								objTemplate.setOption3Value(styleMoteefeNo);
-								objTemplate.setVariantSKU(sku);
-								objTemplate.setImageAltText(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setSEOTitle(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setTags("Moteefe");
-								objTemplate.setSourceURL(linkHref);
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-										|| size.equals("XXXXXL")) {
-									if(size.equals("XXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 4));
-									}else if (size.equals("XXXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 5));
-									}else {
-										objTemplate.setVariantprice(String.valueOf(price + 3));
-									}
-									if (size.equals("XXL"))
-										objTemplate.setOption1Value("XXL");
-									if (size.equals("XXXL"))
-										objTemplate.setOption1Value("XXXL");
-									if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXL");
-									if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXXL");
-								} else {
-									objTemplate.setVariantprice(String.valueOf(price));
-								}
-								listObj.add(objTemplate);
-							}
-							if ((size.equals("XXXXL") || size.equals("XXXXXL")) && !"Women-T-Shirt".equals(styleTemp)) {
-								// Set titel for data Excel
-								objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-								objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-								objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-		
-								objTemplate.setVendor("Moteefe");
-								objTemplate.setImagesrc(imageLink);
-								objTemplate.setVariantImage(imageLink);
-								objTemplate.setOption1Value(size);
-								objTemplate.setOption2Value(labelColor);
-								objTemplate.setBodyHTML(title);
-								objTemplate.setOption3Value(styleMoteefeNo);
-								objTemplate.setVariantSKU(sku);
-								objTemplate.setImageAltText(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setSEOTitle(title);
-								objTemplate.setSEODescription(title);
-								objTemplate.setTags("Moteefe");
-								objTemplate.setSourceURL(linkHref);
-								if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-										|| size.equals("XXXXXL")) {
-									if(size.equals("XXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 4));
-									}else if (size.equals("XXXXXL")) {
-										objTemplate.setVariantprice(String.valueOf(price + 5));
-									}else {
-										objTemplate.setVariantprice(String.valueOf(price + 3));
-									}
-									if (size.equals("XXL"))
-										objTemplate.setOption1Value("XXL");
-									if (size.equals("XXXL"))
-										objTemplate.setOption1Value("XXXL");
-									if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXL");
-									if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-										objTemplate.setOption1Value("XXXXXL");
-								} else {
-									objTemplate.setVariantprice(String.valueOf(price));
-								}
-								listObj.add(objTemplate);
-							}
-						}
-					}
-				}
+				price = 19.95;
+				double pricetmp = 0;
+				pricetmp = Float.valueOf(txtTshirtPrice.getText());
+				price = (double) Math.round(pricetmp * 100) / 100;
+				objTemplate = new Template();
+					// Set titel for data Excel
+				objTemplate.setLink(linkHref);
+				objTemplate.setTitle(title);
+				objTemplate.setImage(imageLink);
+				objTemplate.setPrice(String.valueOf(price));
+				objTemplate.setCategories(selectCatagories);
+				objTemplate.setTags("Moteefe");
+				
+				listObj.add(objTemplate);
+			}
 		}
-	}
 		return listObj;
 	}
 			
@@ -2133,6 +1887,7 @@ public class MofeeshirtExportData {
 				e1.printStackTrace();
 
 			}
+			if(!imageLink.equals("")) {	
 			if (linkHref.contains("?")) {
 				String array[] = linkHref.split("\\?");
 				if (array.length > 0) {
@@ -2146,131 +1901,84 @@ public class MofeeshirtExportData {
 					linkHref = linkHref + "?locale=en&user_currency=USD";
 			}
 			System.out.println("Title  : " + title);
-			String styleMoteefeNo = "";
-			String sku = "";
 			Template objTemplate = new Template();
-			for (String selectedStyle : arrayStyle) {
-				styleMoteefeNo = hashMapMoteefeeStyle.get(selectedStyle);
-				for (String labelColor : arrayColor) {
-					String styleTemp = "";
-					styleTemp = hashStyleMap.get(styleMoteefeNo);
-					if ("Men-T-Shirt".equals(styleTemp) || "Women-T-Shirt".equals(styleTemp)) {
-						price = 19.95;
-					}
-					if ("Hoodie".equals(styleTemp)) {
-						price = 39.95;
-					}
-					if ("Sweatshirt".equals(styleTemp)) {
-						price = 29.95;
-					}
-					
-					double pricetmp = 0;
-					if ("Men-T-Shirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtTshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Women-T-Shirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtWomenTshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Hoodie".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtHoddiesPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					if ("Sweatshirt".equals(styleTemp)) {
-						pricetmp = Float.valueOf(txtSweatshirtPrice.getText());
-						price = (double) Math.round(pricetmp * 100) / 100;
-					}
-					
-					for (String size : arraySize) {
-						objTemplate = new Template();
-						if (!(size.equals("XXXXL") || size.equals("XXXXXL"))) {
-							// Set titel for data Excel
-							objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-							objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-							objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-	
-							objTemplate.setVendor("Moteefe");
-							objTemplate.setImagesrc(imageLink);
-							objTemplate.setVariantImage(imageLink);
-							objTemplate.setOption1Value(size);
-							objTemplate.setOption2Value(labelColor);
-							objTemplate.setBodyHTML(title);
-							objTemplate.setOption3Value(styleMoteefeNo);
-							objTemplate.setVariantSKU(sku);
-							objTemplate.setImageAltText(title);
-							objTemplate.setSEODescription(title);
-							objTemplate.setSEOTitle(title);
-							objTemplate.setSEODescription(title);
-							objTemplate.setTags("Moteefe");
-							objTemplate.setSourceURL(linkHref);
-							if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-									|| size.equals("XXXXXL")) {
-								if(size.equals("XXXXL")) {
-									objTemplate.setVariantprice(String.valueOf(price + 4));
-								}else if (size.equals("XXXXXL")) {
-									objTemplate.setVariantprice(String.valueOf(price + 5));
-								}else {
-									objTemplate.setVariantprice(String.valueOf(price + 3));
-								}
-								if (size.equals("XXL"))
-									objTemplate.setOption1Value("XXL");
-								if (size.equals("XXXL"))
-									objTemplate.setOption1Value("XXXL");
-								if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-									objTemplate.setOption1Value("XXXXL");
-								if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-									objTemplate.setOption1Value("XXXXXL");
-							} else {
-								objTemplate.setVariantprice(String.valueOf(price));
-							}
-							listObj.add(objTemplate);
-						}
-						if ((size.equals("XXXXL") || size.equals("XXXXXL")) && !"Women-T-Shirt".equals(styleTemp)) {
-							// Set titel for data Excel
-							objTemplate.setTitle(title + " " + styleTemp + " - " + nameStore);
-							objTemplate.setHandle(title + " " + styleTemp + " - " + nameStore.replace("#", ""));
-							objTemplate.setImageAltText(title + " " + styleTemp + " - " + " " + nameStore);
-	
-							objTemplate.setVendor("Moteefe");
-							objTemplate.setImagesrc(imageLink);
-							objTemplate.setVariantImage(imageLink);
-							objTemplate.setOption1Value(size);
-							objTemplate.setOption2Value(labelColor);
-							objTemplate.setBodyHTML(title);
-							objTemplate.setOption3Value(styleMoteefeNo);
-							objTemplate.setVariantSKU(sku);
-							objTemplate.setImageAltText(title);
-							objTemplate.setSEODescription(title);
-							objTemplate.setSEOTitle(title);
-							objTemplate.setSEODescription(title);
-							objTemplate.setTags("Moteefe");
-							objTemplate.setSourceURL(linkHref);
-							if (size.equals("XXL") || size.equals("XXXL") || size.equals("XXXXL")
-									|| size.equals("XXXXXL")) {
-								if(size.equals("XXXXL")) {
-									objTemplate.setVariantprice(String.valueOf(price + 4));
-								}else if (size.equals("XXXXXL")) {
-									objTemplate.setVariantprice(String.valueOf(price + 5));
-								}else {
-									objTemplate.setVariantprice(String.valueOf(price + 3));
-								}
-								if (size.equals("XXL"))
-									objTemplate.setOption1Value("XXL");
-								if (size.equals("XXXL"))
-									objTemplate.setOption1Value("XXXL");
-								if (size.equals("XXXXL") && !"Women-T-Shirt".equals(styleTemp))
-									objTemplate.setOption1Value("XXXXL");
-								if (size.equals("XXXXXL") && !"Women-T-Shirt".equals(styleTemp))
-									objTemplate.setOption1Value("XXXXXL");
-							} else {
-								objTemplate.setVariantprice(String.valueOf(price));
-							}
-							listObj.add(objTemplate);
-						}
-					}
-				}
+			price = 19.95;
+			double pricetmp = 0;
+			pricetmp = Float.valueOf(txtTshirtPrice.getText());
+			price = (double) Math.round(pricetmp * 100) / 100;
+			objTemplate = new Template();
+				// Set titel for data Excel
+			objTemplate.setLink(linkHref);
+			objTemplate.setTitle(title);
+			objTemplate.setImage(imageLink);
+			objTemplate.setPrice(String.valueOf(price));
+			objTemplate.setCategories(selectCatagories);
+			objTemplate.setTags("Moteefe");
+			
+			listObj.add(objTemplate);
+		}
+		}
+		return listObj;
+	}
+//	contentChildGetBeautShirts
+	public ArrayList<Template> contentChildGetBeautShirts(String linkHref, String selectCatagories) {
+		ArrayList<Template> listObj = new ArrayList<Template>();
+		if (linkHref != "") {
+			String imageLink = "";
+			double price = 0;
+			String title = "";
+			String[] arrLink = linkHref.split("___");
+			if (arrLink.length >= 2) {
+				linkHref = arrLink[0];
+				if (!"XXX".equals(arrLink[0]))
+					title = arrLink[1];
+			} else {
+				linkHref = arrLink[0];
 			}
+			Document docPageMain;
+			try {
+				docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.referrer("http://www.google.com").ignoreContentType(true).get();
+				
+				if(!docPageMain.getElementsByTag("title").get(0).text().contains("Error")) {
+					imageLink = docPageMain.getElementsByTag("meta").get(10).attr("content");
+				}
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+
+			}
+			if(!imageLink.equals("")) {	
+			if (linkHref.contains("?")) {
+				String array[] = linkHref.split("\\?");
+				if (array.length > 0) {
+					if (!array[0].contains("?locale=en&user_currency=USD"))
+						linkHref = array[0] + "?locale=en&user_currency=USD";
+					else
+						linkHref = array[0];
+				}
+			} else {
+				if (!linkHref.contains("?locale=en&user_currency=USD"))
+					linkHref = linkHref + "?locale=en&user_currency=USD";
+			}
+			System.out.println("Title  : " + title);
+			Template objTemplate = new Template();
+			price = 19.95;
+			double pricetmp = 0;
+			pricetmp = Float.valueOf(txtTshirtPrice.getText());
+			price = (double) Math.round(pricetmp * 100) / 100;
+			objTemplate = new Template();
+				// Set titel for data Excel
+			objTemplate.setLink(linkHref);
+			objTemplate.setTitle(title);
+			objTemplate.setImage(imageLink);
+			objTemplate.setPrice(String.valueOf(price));
+			objTemplate.setCategories(selectCatagories);
+			objTemplate.setTags("Moteefe");
+			
+			listObj.add(objTemplate);
+		}
 		}
 		return listObj;
 	}
@@ -2739,45 +2447,7 @@ public class MofeeshirtExportData {
 					linkHref = arrLink[0];
 				}
 
-//				if (linkHref.contains("https://teenavi.net") || linkHref.contains("https://www.teenavi.net")) {
 				if (true) {
-//					Document docPageMain;
-//					try {
-//						docPageMain = Jsoup.connect(linkHref).timeout(50 * 1000)
-//								.userAgent(
-//										"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
-//								.referrer("http://www.google.com").ignoreContentType(true).validateTLSCertificates(false).get();
-//
-//						Document documentChildMain = Jsoup.parse(docPageMain.toString());
-//						// Commond .saveFileTXT(documentChild +
-//						// "\n", "txt","MoteefeDoc");
-//						Elements scriptElement = documentChildMain.select("script[data-component-name=StorefrontApp]");
-//						String data = scriptElement.html();
-//						// Commond.saveFileTXT(data + "\n", "txt",
-//						// "MoteefeDoctext");
-//						// System.out.println("scriptElement size : " +
-//						// String.valueOf(scriptElement.size()));
-//						ObjectMapper mapper = new ObjectMapper();
-//						mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//						// log.debug("title" + title);
-//						MyPojo myPojo = new MyPojo();
-//						// create a new Gson instance
-//						Gson gson = new Gson();
-//						// convert your list to json
-////						String jsonCartList = gson.toJson(myPojo);
-//						//huynnp
-////						myPojo = mapper.readValue(data, new TypeReference<MyPojo>() {
-////						});
-////						if (myPojo.getState().getStore().getCampaigns().size() > 0)
-////							linkHref = linkHref + "/" + myPojo.getState().getStore().getCampaigns().get(0).getSlug()
-////									+ "?locale=en&user_currency=USD";
-////						System.out.println("linkHref : " + linkHref  );
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						flagEx = true;
-//						e1.printStackTrace();
-//
-//					}
 					Document docPage;
 					try {
 						if (linkHref.contains("?")) {
@@ -2813,13 +2483,6 @@ public class MofeeshirtExportData {
 						RootObject rootObject = new RootObject();
 						// create a new Gson instance
 						Gson gson = new Gson();
-//					      try {
-//					          gson.fromJson(data, Object.class);
-//					          System.out.println("scriptElement size: 11111111111111111" );
-//					      } catch(com.google.gson.JsonSyntaxException ex) { 
-//					    	  System.out.println("scriptElement size: 222222222222222222" );
-//					      }
-//						
 						// convert your list to json
 //						String jsonCartList = gson.toJson(rootObject);
 						if(scriptElement.size() > 0) {

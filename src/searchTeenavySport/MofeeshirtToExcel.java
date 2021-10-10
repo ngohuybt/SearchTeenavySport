@@ -88,8 +88,8 @@ public class MofeeshirtToExcel {
 		try {
 			MofeeshirtToExcel window = new MofeeshirtToExcel();
 //			MofeeshirtToExcel.siteMaplink = "https://mofeeshirt.com/product-sitemap2.xml";
-//			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap19.xml";
-			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap10.xml";
+			MofeeshirtToExcel.siteMaplink = "https://kingteeshops.com/product-sitemap21.xml";
+//			MofeeshirtToExcel.siteMaplink = "https://t-shirtat.com/product-sitemap11.xml";
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -244,18 +244,33 @@ public class MofeeshirtToExcel {
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
 					Document buyProduct;
 					String linksitemap="";
-					String fileName = "Links" + siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17) + "Sitemap";
+					String siteName = siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17);
+					String fileName = "Links" + siteName + "Sitemap";
 					System.out.println("Find: " + siteMaplink);
 					content = Commond.getContentURL(siteMaplink);
 					str = content.toString();
 					doc = Jsoup.parse(str, "", Parser.xmlParser());
-//					for (int i=0;i< 5;i++) {
-					for (int i=0;i< doc.select("loc").size();i++) {
+//					for (int i=364 ;i< doc.select("loc").size();i++) {
+					for (int i= 0;i< doc.select("loc").size();i++) {
 						linksitemap = doc.select("loc").get(i).text();
 						System.out.println(linksitemap);
 						if (isValid(linksitemap) != 404) {
 		    	        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-				    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+		    	        	String buyProductLink ="";
+		    	        	if("t-shirtat".equals(siteName)) {
+		    	        		String buyProductLinkTemp = buyProduct.select("form.cart").attr("action") ;
+		    	        		Document buyProduct2;
+		    	        		buyProduct2 = Jsoup.parse(new URL(buyProductLinkTemp), 100000);
+		    	        		String checkLink = buyProduct2.select("div[class=styled__StoreProducts-wmokru-7 ljSEBk]").select("a").attr("href");
+		    	        		if("".equals(checkLink)) {
+		    	        			buyProductLink = buyProductLinkTemp;
+		    	        		}else {
+		    	        			buyProductLink = "https://moteefe.com" + checkLink;
+		    	        		}
+		    	        	}else {
+		    	        		buyProductLink = buyProduct.select("form.cart").attr("action") ;
+		    	        	}
+				    	
 				    		String title = buyProduct.select("div.product-info h1").get(0).text();
 				    		LinkTitle linkTitle = new LinkTitle(buyProductLink, title);
 				    		listLinkTitle.add(linkTitle) ;
@@ -292,20 +307,34 @@ public class MofeeshirtToExcel {
 					try {
 						System.setProperty("http.agent",
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
-						Document buyProduct;
+						Document buyProduct;		
 						String linksitemap="";
-//						String fileName = "Sitemap";
-						String fileName = "Links" + siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17) + "Sitemap";
+						String siteName = siteMaplink.substring(siteMaplink.indexOf("//") + 2, 17);
+						String fileName = "Links" + siteName + "Sitemap";
 						System.out.println("Find: " + siteMaplink);
 						content = Commond.getContentURL(siteMaplink);
 						str = content.toString();
 						doc = Jsoup.parse(str, "", Parser.xmlParser());
-						for (int i=0;i< doc.select("loc").size();i++) {
+						for (int i=100;i< doc.select("loc").size();i++) {
+//						for (int i=0;i< doc.select("loc").size();i++) {
 							linksitemap = doc.select("loc").get(i).text();
 							System.out.println(linksitemap);
 							if (isValid(linksitemap) != 404) {
 					        	buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-					    		String buyProductLink = buyProduct.select("form.cart").attr("action") ;
+			    	        	String buyProductLink ="";
+			    	        	if("t-shirtat".equals(siteName)) {
+			    	        		String buyProductLinkTemp = buyProduct.select("form.cart").attr("action") ;
+			    	        		Document buyProduct2;
+			    	        		buyProduct2 = Jsoup.parse(new URL(buyProductLinkTemp), 100000);
+			    	        		String checkLink = buyProduct2.select("div[class=styled__StoreProducts-wmokru-7 ljSEBk]").select("a").attr("href");
+			    	        		if("".equals(checkLink)) {
+			    	        			buyProductLink = buyProductLinkTemp;
+			    	        		}else {
+			    	        			buyProductLink = "https://moteefe.com" + checkLink;
+			    	        		}
+			    	        	}else {
+			    	        		buyProductLink = buyProduct.select("form.cart").attr("action") ;
+			    	        	}
 					    		String title = buyProduct.select("div.product-info h1").get(0).text();
 //									if(!listObjLink.contains(buyProductLink) && !dataListLnk.contains(buyProductLink)){
 								if(!dataListLnk.contains(buyProductLink)){

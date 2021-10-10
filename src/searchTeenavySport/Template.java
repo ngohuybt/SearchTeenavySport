@@ -49,7 +49,38 @@ public class Template{
 	String VariantWeightUnit="lb";
 	String VariantTaxCode;
 	String SourceURL;
+	String Price;
+	String Categories;
+	String Image;
+	String Link;
 	
+	
+	
+	
+	public String getPrice() {
+		return Price;
+	}
+	public void setPrice(String price) {
+		Price = price;
+	}
+	public String getCategories() {
+		return Categories;
+	}
+	public void setCategories(String categories) {
+		Categories = categories;
+	}
+	public String getImage() {
+		return Image;
+	}
+	public void setImage(String image) {
+		Image = image;
+	}
+	public String getLink() {
+		return Link;
+	}
+	public void setLink(String link) {
+		Link = link;
+	}
 	public String getSourceURL() {
 		return SourceURL;
 	}
@@ -337,4 +368,12 @@ public class Template{
 				return o1.getTitle().compareToIgnoreCase(o2.getTitle());
 			}
 	}
+	
+	public static class CompBodyHTML implements Comparator<Template>{
+		
+		@Override
+		public int compare(Template o1,Template o2){
+			return o1.getBodyHTML().compareToIgnoreCase(o2.getBodyHTML());
+		}
+}
 }
