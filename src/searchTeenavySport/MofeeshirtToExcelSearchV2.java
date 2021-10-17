@@ -92,12 +92,12 @@ public class MofeeshirtToExcelSearchV2 {
 			MofeeshirtToExcelSearchV2 window = new MofeeshirtToExcelSearchV2();
 //			MofeeshirtToExcelSearch.siteMaplink = "https://mofeeshirt.com/product-sitemap";//TM
 //			MofeeshirtToExcelSearch.siteMaplink = "https://t-shirtat.com/product-sitemap";//15//TM
-			MofeeshirtToExcelSearchV2.siteMaplink = "https://kingteeshops.com/product-sitemap";//158
+			MofeeshirtToExcelSearchV2.siteMaplink = "https://kingteeshops.com/product-sitemap";//161
 //			MofeeshirtToExcelSearchV2.siteMaplink = "https://eternalshirt.com/product-sitemap";//74
 //			MofeeshirtToExcelSearchV2.siteMaplink = "https://iteesglobal.com/sitemap-pt-product-2021-0";//03
 			
-			MofeeshirtToExcelSearchV2.siteMapStart = 161;
-			MofeeshirtToExcelSearchV2.siteMapEnd = 161;
+			MofeeshirtToExcelSearchV2.siteMapStart = 178;
+			MofeeshirtToExcelSearchV2.siteMapEnd = 178;
 			MofeeshirtToExcelSearchV2.siteMapSearch = "kingteeshops";
 //			MofeeshirtToExcelSearchV2.siteMapSearch = "eternalshirt";
 //			MofeeshirtToExcelSearch.siteMapSearch = "t-shirtat.com";
