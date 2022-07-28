@@ -844,7 +844,7 @@ public class MofeeshirtExportDataV2 {
 				for (String link : dataListView) {
 					listObjLink = new ArrayList<Template>();
 					//|| link.contains("https://cdn.kingteeshops.com") 
-					if (link.contains("https://cdn.geaflare.com/") || link.contains("https://kingteeshops.com/") || link.contains("https://cdn.kingteeshops.com") || link.contains("https://eternalshirt.com/") || link.contains("https://teeusa.live/") || link.contains("https://teefashion.live/") || link.contains("https://waterfalls.site")) {
+					if (link.contains("https://") || link.contains("https://cdn.geaflare.com/") || link.contains("https://kingteeshops.com/") || link.contains("https://cdn.kingteeshops.com") || link.contains("https://eternalshirt.com/") || link.contains("https://teeusa.live/") || link.contains("https://teefashion.live/") || link.contains("https://waterfalls.site")) {
 						listObjLink = contentChildGetKingteeshopsV2(link, selectCatagories);
 					}
 					if (link.contains("//purplestee.site/") || link.contains("//aladdinstee.site/") || link.contains("//twinklestee.com/")) {

@@ -92,13 +92,16 @@ public class MofeeshirtToExcelSearchV2 {
 			MofeeshirtToExcelSearchV2 window = new MofeeshirtToExcelSearchV2();
 //			MofeeshirtToExcelSearch.siteMaplink = "https://mofeeshirt.com/product-sitemap";//TM
 //			MofeeshirtToExcelSearch.siteMaplink = "https://t-shirtat.com/product-sitemap";//15//TM
-			MofeeshirtToExcelSearchV2.siteMaplink = "https://kingteeshops.com/product-sitemap";//161
-//			MofeeshirtToExcelSearchV2.siteMaplink = "https://eternalshirt.com/product-sitemap";//74
+//			MofeeshirtToExcelSearchV2.siteMaplink = "https://kingteeshops.com/product-sitemap";//246
+//			MofeeshirtToExcelSearchV2.siteMaplink = "https://eternalshirt.com/product-sitemap";//176
 //			MofeeshirtToExcelSearchV2.siteMaplink = "https://iteesglobal.com/sitemap-pt-product-2021-0";//03
-			
-			MofeeshirtToExcelSearchV2.siteMapStart = 178;
-			MofeeshirtToExcelSearchV2.siteMapEnd = 178;
-			MofeeshirtToExcelSearchV2.siteMapSearch = "kingteeshops";
+			// 27-7-2022
+//			MofeeshirtToExcelSearchV2.siteMaplink = "https://hozzify.co/product-sitemap";//95.xml,8586
+			MofeeshirtToExcelSearchV2.siteMaplink = "https://www.cubebik.com/product-sitemap";//64.xml
+			MofeeshirtToExcelSearchV2.siteMapStart = 64;//85
+			MofeeshirtToExcelSearchV2.siteMapEnd = 64;//86
+//			MofeeshirtToExcelSearchV2.siteMapSearch = "hozzify";
+			MofeeshirtToExcelSearchV2.siteMapSearch = "cubebik";
 //			MofeeshirtToExcelSearchV2.siteMapSearch = "eternalshirt";
 //			MofeeshirtToExcelSearch.siteMapSearch = "t-shirtat.com";
 //			MofeeshirtToExcelSearchV2.siteMapSearch = "iteesglobal";
@@ -265,37 +268,65 @@ public class MofeeshirtToExcelSearchV2 {
 						content = Commond.getContentURL(siteMaplinkTemp);
 						str = content.toString();
 						doc = Jsoup.parse(str, "", Parser.xmlParser());
-						for (int i=0;i< doc.select("loc").size();i++) {
-//							for (int i=500;i< doc.select("loc").size();i++) {
-//							for (int i=994;i< doc.select("loc").size();i++) {
+//						for (int i=0;i< doc.select("loc").size();i++) {
+//							for (int i=0;i< 500;i++) {
+							for (int i=0;i< 10;i++) {
 							linksitemap = doc.select("loc").get(i).text();
 							if(linksitemap.contains(siteMapSearch)) {
 								System.out.println(linksitemap);
-								if (isValid(linksitemap) != 404) {
-									StringBuffer content_t_shirtat;
-									String str_t_shirtat;
-									Document doc_t_shirtat;
+								int statusCode = isValid(linksitemap);
+								if (statusCode != 404 && statusCode !=524) {
 									if(siteMapSearch.equals("t-shirtat.com")) {
-										content_t_shirtat = Commond.getContentURL(linksitemap);
-										str_t_shirtat = content_t_shirtat.toString();
-										doc_t_shirtat = Jsoup.parse(str_t_shirtat, "", Parser.xmlParser());
+										StringBuffer content_t_shirtat = Commond.getContentURL(linksitemap);
+										String str_t_shirtat = content_t_shirtat.toString();
+										Document doc_t_shirtat = Jsoup.parse(str_t_shirtat, "", Parser.xmlParser());
 										String buyProductLink1 = doc_t_shirtat.select("form.cart").attr("action") ;
 							    		String title = doc_t_shirtat.select("div.product-info h1").get(0).text();
 							    		LinkTitle linkTitle = new LinkTitle(buyProductLink1, title);
 							    		listLinkTitle.add(linkTitle) ;
 									} else if(siteMapSearch.equals("eternalshirt")) {
 										buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-							    		String title = buyProduct.getElementsByTag("meta").get(4).attr("content");
-							    		String imageLink = buyProduct.getElementsByTag("meta").get(6).attr("content");
+							    		String title = buyProduct.getElementsByTag("meta").get(7).attr("content");
+							    		String imageLink = buyProduct.getElementsByTag("meta").get(9).attr("content");
 							    		LinkTitle linkTitle = new LinkTitle(imageLink, title);
 							    		listLinkTitle.add(linkTitle) ;
 									} else if(siteMapSearch.equals("kingteeshops")) {
 										buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-							    		String title = buyProduct.getElementsByTag("meta").get(4).attr("content");
-							    		String imageLink = buyProduct.getElementsByTag("meta").get(6).attr("content");
+							    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+							    		String imageLink = buyProduct.getElementsByTag("meta").get(8).attr("content");
 							    		LinkTitle linkTitle = new LinkTitle(imageLink, title);
 							    		listLinkTitle.add(linkTitle) ;
-									}else if(siteMapSearch.equals("iteesglobal")) {
+									} 
+//										String title = buyProduct.select("h1.product_title").text();
+////									.select("div[class=CampaignProductImageShowcase]").select("img").attr("src");
+////							    	String imageLink = buyProduct.select("div.woocommerce-product-gallery__image a").get(0).text();
+//							    		String imageLink = buyProduct.select("div.woocommerce-product-gallery__image a").attr("href");
+
+									else if(siteMapSearch.equals("hozzify")) { 
+										buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+							    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+							    		//Over Print,hawaii
+							    		//t-shirt,men’s premium,hoodie,tank,neck,sweatshirt,sleeve,hooded,premium short sleeve t-shirt
+							    		String titleUpperCase = title.toUpperCase();
+							    		if(titleUpperCase.contains("premium short sleeve t-shirt".toUpperCase())
+							    				&& !(titleUpperCase.contains("Over Print".toUpperCase()) || titleUpperCase.contains("hawaii".toUpperCase()))) {
+							    			String imageLink = buyProduct.getElementsByTag("meta").get(11).attr("content");
+								    		LinkTitle linkTitle = new LinkTitle(imageLink, title.substring(0,title.length()-25));
+								    		listLinkTitle.add(linkTitle) ;
+							    		}
+									}
+									else if(siteMapSearch.equals("cubebik")) { 
+										buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+							    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+							    		//Tank,Shirt,T-Shirt
+							    		String titleUpperCase = title.toUpperCase();
+							    		if(titleUpperCase.contains("Tank".toUpperCase()) || titleUpperCase.contains("Shirt".toUpperCase())) {
+							    			String imageLink = buyProduct.getElementsByTag("meta").get(11).attr("content");
+								    		LinkTitle linkTitle = new LinkTitle(imageLink, title.substring(0,title.length()-10));
+								    		listLinkTitle.add(linkTitle) ;
+							    		}
+									} 
+									else if(siteMapSearch.equals("iteesglobal")) {
 										buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
 							    		String title = buyProduct.select("div.product-title-small strong").get(0).text();
 							    		String imageLink = buyProduct.getElementsByTag("img").get(4).attr("src");
@@ -356,16 +387,16 @@ public class MofeeshirtToExcelSearchV2 {
 							content = Commond.getContentURL(siteMaplinkTemp);
 							str = content.toString();
 							doc = Jsoup.parse(str, "", Parser.xmlParser());
-//							for (int i= 0;i< doc.select("loc").size();i++) {
-								for (int i=300;i< doc.select("loc").size();i++) {
+							for (int i= 0;i< doc.select("loc").size();i++) {
+//								for (int i=500;i< doc.select("loc").size();i++) {
 								linksitemap = doc.select("loc").get(i).text();
 								 if(linksitemap.contains(siteMapSearch)) {
 									System.out.println(linksitemap);
 									if (isValid(linksitemap) != 404) {
 										if(siteMapSearch.equals("eternalshirt")) {
 											buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-								    		String title = buyProduct.getElementsByTag("meta").get(4).attr("content");
-								    		String imageLink = buyProduct.getElementsByTag("meta").get(6).attr("content");
+								    		String title = buyProduct.getElementsByTag("meta").get(7).attr("content");
+								    		String imageLink = buyProduct.getElementsByTag("meta").get(9).attr("content");
 								    		if(!dataListLnk.contains(imageLink)){
 									    		LinkTitle linkTitle = new LinkTitle(imageLink, title);
 									    		listLinkTitle.add(linkTitle) ;
@@ -373,13 +404,37 @@ public class MofeeshirtToExcelSearchV2 {
 										}
 										if(siteMapSearch.equals("kingteeshops")) {
 											buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
-								    		String title = buyProduct.getElementsByTag("meta").get(4).attr("content");
-								    		String imageLink = buyProduct.getElementsByTag("meta").get(6).attr("content");
+								    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+								    		String imageLink = buyProduct.getElementsByTag("meta").get(8).attr("content");
 								    		if(!dataListLnk.contains(imageLink)){
 									    		LinkTitle linkTitle = new LinkTitle(imageLink, title);
 									    		listLinkTitle.add(linkTitle) ;
 								    		}
-
+										}
+										if(siteMapSearch.equals("hozzify")) { 
+											buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+								    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+								    		String titleUpperCase = title.toUpperCase();
+								    		if(titleUpperCase.contains("premium short sleeve t-shirt".toUpperCase())
+								    				&& !(titleUpperCase.contains("Over Print".toUpperCase()) || titleUpperCase.contains("hawaii".toUpperCase()))) {
+								    			String imageLink = buyProduct.getElementsByTag("meta").get(11).attr("content");
+								        		if(!dataListLnk.contains(imageLink)){
+								        			LinkTitle linkTitle = new LinkTitle(imageLink, title.substring(0,title.length()-25));
+										    		listLinkTitle.add(linkTitle) ;
+									    		}
+								    		}
+										}
+										if(siteMapSearch.equals("cubebik")) { 
+											buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
+								    		String title = buyProduct.getElementsByTag("meta").get(6).attr("content");
+								    		String titleUpperCase = title.toUpperCase();
+								    		if(titleUpperCase.contains("Tank".toUpperCase()) || titleUpperCase.contains("Shirt".toUpperCase())) {
+								    			String imageLink = buyProduct.getElementsByTag("meta").get(11).attr("content");
+								        		if(!dataListLnk.contains(imageLink)){
+								        			LinkTitle linkTitle = new LinkTitle(imageLink, title.substring(0,title.length()-10));
+										    		listLinkTitle.add(linkTitle) ;
+									    		}
+								    		}
 										}
 										if(siteMapSearch.equals("iteesglobal")) {
 											buyProduct = Jsoup.parse(new URL(linksitemap), 100000);
